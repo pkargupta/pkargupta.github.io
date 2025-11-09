@@ -326,7 +326,10 @@
                 // 0 = no highlight, 1 = yellow highlight, 2 = orange highlight
                 const charHighlight = Array(textLength).fill(0);
                 
-                // First pass: mark all annotated text as yellow (1)
+                // Map to store which spans are at each position for hover functionality
+                const charSpans = Array(textLength).fill(null).map(() => []);
+                
+                // First pass: mark all annotated text as yellow (1) and track spans
                 currentSpans.forEach((span) => {
                     let searchStart = 0;
                     let foundIndex = text.indexOf(span.text, searchStart);
@@ -334,6 +337,7 @@
                     while (foundIndex !== -1) {
                         for (let i = foundIndex; i < foundIndex + span.text.length; i++) {
                             charHighlight[i] = 1;
+                            charSpans[i].push(span);
                         }
                         searchStart = foundIndex + 1;
                         foundIndex = text.indexOf(span.text, searchStart);
@@ -363,6 +367,7 @@
                 
                 while (currentIdx < textLength) {
                     const currentHighlight = charHighlight[currentIdx];
+                    const spansAtPos = charSpans[currentIdx];
                     
                     // Find where this highlight type ends
                     let endIndex = currentIdx + 1;
@@ -378,10 +383,20 @@
                             isHighlight: false
                         });
                     } else {
+                        // Determine which span to show for hover (prefer active if available)
+                        let displaySpan = spansAtPos.length > 0 ? spansAtPos[0] : null;
+                        if (activeSpanId && spansAtPos.length > 0) {
+                            const activeSpan = spansAtPos.find(s => s.id === activeSpanId);
+                            if (activeSpan) {
+                                displaySpan = activeSpan;
+                            }
+                        }
+                        
                         segments.push({
                             text: segmentText,
                             isHighlight: true,
-                            isActive: currentHighlight === 2
+                            isActive: currentHighlight === 2,
+                            span: displaySpan
                         });
                     }
                     
@@ -492,7 +507,13 @@
                                                             : 'bg-yellow-300'
                                                     }`}
                                                     onMouseEnter={(e) => {
-                                                        setHoverPosition({ x: e.clientX, y: e.clientY });
+                                                        if (segment.span) {
+                                                            setHoveredSpan(segment.span);
+                                                            setHoverPosition({ x: e.clientX, y: e.clientY });
+                                                        }
+                                                    }}
+                                                    onMouseLeave={() => {
+                                                        setHoveredSpan(null);
                                                     }}
                                                 >
                                                     {segment.text}
