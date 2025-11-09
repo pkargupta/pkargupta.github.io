@@ -73,16 +73,33 @@
             }
         ];
 
-        const COGNITIVE_BEHAVIORS = [
-            "Logical reasoning",
-            "Pattern recognition",
-            "Memory recall",
-            "Causal inference",
-            "Hypothesis generation",
-            "Error detection",
-            "Analogical thinking",
-            "Decomposition"
-        ];
+        const COGNITIVE_BEHAVIORS = ['self-awareness',
+            'strategy-selection',
+            'goal-management',
+            'self-evaluation',
+            'logical-coherence',
+            'compositionality',
+            'productivity',
+            'conceptual-level-processing',
+            'hierarchical-organization',
+            'graph-organization',
+            'sequential-organization',
+            'ordinal-organization',
+            'causal-organization',
+            'spatial-organization',
+            'temporal-organization',
+            'context-dependent-structure-adoption',
+            'knowledge-structure-alignment',
+            'verification',
+            'selective-attention',
+            'adaptive-detail-management',
+            'decomposition-and-integration',
+            'representational-restructuring',
+            'pattern-recognition',
+            'abstraction',
+            'forward-chaining',
+            'backward-chaining',
+            'backtracking'];
 
         function LLMTraceAnnotator() {
             const [currentIndex, setCurrentIndex] = useState(0);
@@ -99,6 +116,7 @@
             const [uploadError, setUploadError] = useState(null);
             const textRef = useRef(null);
             const fileInputRef = useRef(null);
+            const annotationsInputRef = useRef(null);
 
             const currentTrace = sampleData[currentIndex];
 
@@ -157,6 +175,70 @@
                 };
 
                 reader.readAsArrayBuffer(file);
+            };
+
+            const handleAnnotationsUpload = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                setIsLoading(true);
+                setUploadError(null);
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+                        
+                        // Validate the structure and convert to internal format
+                        const convertedAnnotations = {};
+                        
+                        for (const [traceId, data] of Object.entries(jsonData)) {
+                            if (!data.spans || !Array.isArray(data.spans)) {
+                                throw new Error(`Invalid format for trace ${traceId}: missing or invalid 'spans' array`);
+                            }
+                            
+                            convertedAnnotations[traceId] = {
+                                spans: data.spans.map((span, idx) => {
+                                    // Handle both array format [text, behavior, score] and object format
+                                    if (Array.isArray(span)) {
+                                        if (span.length !== 3) {
+                                            throw new Error(`Invalid span format in trace ${traceId}`);
+                                        }
+                                        return {
+                                            text: String(span[0]),
+                                            behavior: String(span[1]),
+                                            score: Number(span[2]),
+                                            id: Date.now() + idx
+                                        };
+                                    } else if (span.text && span.behavior && span.score !== undefined) {
+                                        return {
+                                            text: String(span.text),
+                                            behavior: String(span.behavior),
+                                            score: Number(span.score),
+                                            id: span.id || Date.now() + idx
+                                        };
+                                    } else {
+                                        throw new Error(`Invalid span format in trace ${traceId}`);
+                                    }
+                                })
+                            };
+                        }
+
+                        setAnnotations(convertedAnnotations);
+                        setIsLoading(false);
+                        alert(`Successfully loaded annotations for ${Object.keys(convertedAnnotations).length} trace(s)`);
+                    } catch (error) {
+                        setUploadError(`Failed to parse annotations file: ${error.message}`);
+                        setIsLoading(false);
+                    }
+                };
+
+                reader.onerror = () => {
+                    setUploadError('Failed to read the annotations file');
+                    setIsLoading(false);
+                };
+
+                reader.readAsText(file);
             };
 
             const handleTextSelection = () => {
@@ -325,6 +407,13 @@
                                         accept=".xlsx,.xls"
                                         className="hidden"
                                     />
+                                    <input
+                                        type="file"
+                                        ref={annotationsInputRef}
+                                        onChange={handleAnnotationsUpload}
+                                        accept=".json"
+                                        className="hidden"
+                                    />
                                     <button
                                         onClick={() => fileInputRef.current?.click()}
                                         disabled={isLoading}
@@ -332,6 +421,14 @@
                                     >
                                         <Upload size={20} />
                                         {isLoading ? 'Loading...' : 'Upload XLSX'}
+                                    </button>
+                                    <button
+                                        onClick={() => annotationsInputRef.current?.click()}
+                                        disabled={isLoading}
+                                        className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+                                    >
+                                        <Upload size={20} />
+                                        {isLoading ? 'Loading...' : 'Load Annotations'}
                                     </button>
                                     <button
                                         onClick={downloadAnnotations}

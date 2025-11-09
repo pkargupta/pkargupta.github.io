@@ -48,8 +48,8 @@
         // Sample reasoning traces data
         const SAMPLE_DATA = [
             {
-                id: "trace_001",
-                question: "What is the capital of France?",
+                id: "2170867_General Problem Solving",
+                question: "Suppose we have a standard 8x8 checkerboard and we discard two diagonally opposed corners, leaving a total of 62 squares. If a domino covers two squares, is it possible to completely cover the surface of the trimmed board with 31 dominoes? Provide a detailed explanation for your answer, considering the properties of the checkerboard and the behavior of dominoes on it.",
                 reasoning: "Let me think about this question. France is a country in Europe. The capital city is where the government is located. Paris is the largest city in France and serves as its capital. Therefore, the answer is Paris."
             },
             {
@@ -64,16 +64,33 @@
             }
         ];
 
-        const COGNITIVE_BEHAVIORS = [
-            "Logical reasoning",
-            "Pattern recognition",
-            "Memory recall",
-            "Causal inference",
-            "Hypothesis generation",
-            "Error detection",
-            "Analogical thinking",
-            "Decomposition"
-        ];
+        const COGNITIVE_BEHAVIORS = ['self-awareness',
+            'strategy-selection',
+            'goal-management',
+            'self-evaluation',
+            'logical-coherence',
+            'compositionality',
+            'productivity',
+            'conceptual-level-processing',
+            'hierarchical-organization',
+            'graph-organization',
+            'sequential-organization',
+            'ordinal-organization',
+            'causal-organization',
+            'spatial-organization',
+            'temporal-organization',
+            'context-dependent-structure-adoption',
+            'knowledge-structure-alignment',
+            'verification',
+            'selective-attention',
+            'adaptive-detail-management',
+            'decomposition-and-integration',
+            'representational-restructuring',
+            'pattern-recognition',
+            'abstraction',
+            'forward-chaining',
+            'backward-chaining',
+            'backtracking'];
 
         function LLMTraceAnnotator() {
             const [currentIndex, setCurrentIndex] = useState(0);
