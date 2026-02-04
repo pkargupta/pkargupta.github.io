@@ -677,22 +677,22 @@
     const el = document.createElement("div");
     el.innerHTML = `
       <p class="pageSub">
-  Thanks for helping evaluate this study. This short, guided form is designed to make the review process clear and manageable—one step at a time.
+  Thanks for joining our study! We will be providing you with insights from other domains that are tackling similar conceptual challenges to your research problem. We will also be providing you some preliminary ideas to help with your brainstorming process.
 </p>
 
 <div class="section">
   <h3>What you’ll be asked to do</h3>
-  <ul class="muted" style="margin:8px 0 0 18px; line-height:1.6;">
+  <ul class="muted" style="margin:8px 0 0 16px; line-height:1.6;">
     <li>
       Review a small set of research questions and judge whether they represent
       real or emerging challenges for the stated research problem.
     </li>
     <li>
       Look at up to <b>three representative papers</b> per question and rate how
-      relevant each one is to the research problem.
+      relevant each one is to your research problem.
     </li>
     <li>
-      Evaluate the top-ranked ideas by scoring how <b>relevant</b>, <b>insightful</b>,
+      Evaluate the interpretability insights by scoring how <b>relevant</b>, <b>insightful</b>,
       and <b>easy to understand</b> their key takeaways are.
     </li>
     <li>
@@ -706,7 +706,7 @@
   <h3>Good to know</h3>
   <ul class="muted" style="margin:8px 0 0 18px; line-height:1.6;">
     <li>
-      You’ll only see a few items at a time—use <b>Next</b> and <b>Back</b> to move through the form.
+      You’ll only see a few items at a time. Use <b>Next</b> and <b>Back</b> to move through the form.
     </li>
     <li>
       Notes fields are optional and can be used to flag uncertainties, assumptions, or edge cases.
@@ -870,9 +870,9 @@
     const mech = frag.integration_mechanism || {};
     const takeaways = Array.isArray(mech.selected_takeaways) ? mech.selected_takeaways : [];
 
-    pageHeader.textContent = `Top idea #${rank}: Takeaways`;
-    pageMeta.textContent = `Score each selected takeaway (relevance / insightfulness / interpretability). Mechanism explanations (how the takeaway works and why it addresses the challenge) are collapsible.`;
-    pageTypeBadge.textContent = "💡 takeaways";
+    pageHeader.textContent = `Insight #${rank}:`;
+    pageMeta.textContent = `Score each selected insight (relevance / insightfulness / interpretability).`;
+    pageTypeBadge.textContent = "💡insights";
 
     const el = document.createElement("div");
 
@@ -882,7 +882,7 @@
     const hdr = document.createElement("div");
     hdr.className = "section";
     hdr.innerHTML = `
-      <div class="pill">Top idea #${rank}</div>
+      <div class="pill">Top insight #${rank}</div>
         <div class="section" style="margin-top:10px;">
           <div class="kv">
             <div class="k">Source domain</div>
@@ -938,7 +938,7 @@
       det.open = true; // 👈 auto-open by default
       det.innerHTML = `
         <summary>How this takeaway works and why it addresses the challenge.</summary>
-        <div class="content">${mech || "(missing)"}</div>
+        <div class="content">${mex ? mex : "<span class='muted2'>(missing)</span>"}</div>
       `;
       card.appendChild(det);
 
@@ -982,7 +982,7 @@
     // page notes
     const notes = document.createElement("div");
     notes.className = "section";
-    notes.innerHTML = `<h3>Notes for this idea (optional)</h3>`;
+    notes.innerHTML = `<h3>Overall notes for this source domain and takeaways (optional)</h3>`;
     notes.appendChild(renderTextArea({
       value: iBase.takeaways_page_notes || "",
       placeholder: "Optional: overall thoughts on the set of takeaways / coherence / redundancy.",
@@ -1008,8 +1008,8 @@
 
     pageHeader.textContent = `Top idea #${rank}: Overall evaluation`;
     pageMeta.textContent =
-      "Consider the idea as a whole (title, synthesis approach, and concrete realization) and score its novelty and usefulness.";
-    pageTypeBadge.textContent = "🧪 idea";
+      "Score the high-level idea's novelty and usefulness for your brainstorming process.";
+    pageTypeBadge.textContent = "🧪idea";
 
     const el = document.createElement("div");
 
@@ -1033,12 +1033,12 @@
       </div>
 
       <div class="kv" style="margin-top:10px;">
-        <div class="k">Synthesis approach</div>
+        <div class="k">How to combine the two domains?</div>
         <div class="v">${synthesis || "<span class='muted2'>(missing)</span>"}</div>
       </div>
 
       <div class="kv" style="margin-top:10px;">
-        <div class="k">Concrete realization</div>
+        <div class="k">How would this idea be executed?</div>
         <div class="v">${proposed || "<span class='muted2'>(missing)</span>"}</div>
       </div>
     `;
