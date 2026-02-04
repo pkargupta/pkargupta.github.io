@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sparking Scientific Creativity</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --muted2: rgba(255,255,255,0.56);
+      --border: rgba(255,255,255,0.12);
+      --border2: rgba(255,255,255,0.18);
+      --brand: #7c3aed;
+      --brand2: #22c55e;
+      --danger: #ef4444;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 900px at 20% 10%, rgba(124,58,237,0.35), transparent 60%),
+        radial-gradient(900px 700px at 80% 20%, rgba(34,197,94,0.20), transparent 55%),
+        radial-gradient(900px 900px at 30% 90%, rgba(59,130,246,0.14), transparent 60%),
+        var(--bg);
+    }
+
+    a{color:inherit}
+    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 40px;}
+    .topbar{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      margin-bottom:16px;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+      padding:10px 14px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+    .logo{
+      width:28px; height:28px; border-radius:10px;
+      background: linear-gradient(135deg, var(--brand), #60a5fa);
+      box-shadow: 0 10px 20px rgba(124,58,237,0.25);
+    }
+    .brand h1{font-size:14px; margin:0; letter-spacing:0.2px;}
+    .brand p{margin:0; font-size:12px; color:var(--muted)}
+    .actions{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .btn{
+      appearance:none; border:1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:600;
+      transition: transform .05s ease, background .15s ease, border-color .15s ease;
+      display:inline-flex; gap:10px; align-items:center;
+    }
+    .btn:hover{background: rgba(255,255,255,0.10); border-color: var(--border2)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(124,58,237,0.55);
+      background: rgba(124,58,237,0.18);
+    }
+    .btn.good{
+      border-color: rgba(34,197,94,0.55);
+      background: rgba(34,197,94,0.14);
+    }
+    .btn.danger{
+      border-color: rgba(239,68,68,0.55);
+      background: rgba(239,68,68,0.12);
+    }
+    .btn:disabled{opacity:.55; cursor:not-allowed}
+    .file{
+      position:relative; overflow:hidden;
+    }
+    .file input[type="file"]{
+      position:absolute; inset:0; opacity:0; cursor:pointer;
+    }
+    .grid{
+      display:grid; grid-template-columns: 1fr;
+      gap:14px;
+    }
+    @media (min-width: 960px){
+      .grid{grid-template-columns: 360px 1fr;}
+    }
+
+    .card{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.045);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
+    }
+    .card .hd h2{
+      margin:0; font-size:14px; letter-spacing:.15px;
+    }
+    .card .hd .meta{
+      color: var(--muted); font-size:12px; line-height:1.35;
+    }
+    .card .bd{padding:14px 16px;}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size:12px;
+      margin-right:8px;
+      margin-bottom:8px;
+      user-select:none;
+    }
+    .kvs{
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .kv{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:10px 12px;
+      background: rgba(255,255,255,0.04);
+    }
+    .kv .k{color: var(--muted); font-size:12px; margin-bottom:6px;}
+    .kv .v{font-size:13px; line-height:1.45; color:rgba(255,255,255,0.90)}
+    .muted{color: var(--muted)}
+    .muted2{color: var(--muted2)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    .progress{
+      width:100%;
+      height:10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      overflow:hidden;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.10);
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(124,58,237,0.85), rgba(34,197,94,0.70));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    .nav{
+      display:flex; justify-content:space-between; align-items:center;
+      gap:10px; margin-top:14px;
+    }
+    .nav .left, .nav .right{display:flex; gap:10px; flex-wrap:wrap;}
+    .pageTitle{
+      font-size:18px; margin:0 0 4px 0; letter-spacing: .2px;
+    }
+    .pageSub{margin:0; color:var(--muted); font-size:13px; line-height:1.35}
+
+    .section{
+      margin-top:12px;
+      padding:12px 12px;
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,0.035);
+    }
+    .section h3{
+      margin:0 0 8px 0;
+      font-size:13px;
+      color: rgba(255,255,255,0.90);
+    }
+    .divider{
+      height:1px; background: var(--border);
+      margin:12px 0;
+    }
+
+    .likert{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+    .likert button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 14px;
+      padding:10px 10px;
+      cursor:pointer;
+      text-align:left;
+      transition: background .15s ease, border-color .15s ease, transform .05s ease;
+      min-height:58px;
+    }
+    .likert button:hover{background: rgba(255,255,255,0.09); border-color: var(--border2)}
+    .likert button:active{transform: translateY(1px)}
+    .likert button.selected{
+      border-color: rgba(124,58,237,0.55);
+      background: rgba(124,58,237,0.18);
+      box-shadow: 0 0 0 2px rgba(124,58,237,0.10) inset;
+    }
+    .likert .n{font-weight:800; font-size:12px; opacity:.9}
+    .likert .lbl{font-size:12px; color: var(--muted); margin-top:4px; line-height:1.2}
+
+    details{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      padding:10px 12px;
+    }
+    details summary{cursor:pointer; font-weight:700; color: rgba(255,255,255,0.92);}
+    details .content{margin-top:8px; color: var(--muted); font-size:13px; line-height:1.45}
+
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.25);
+      color: var(--text);
+      padding:10px 12px;
+      outline:none;
+    }
+    textarea:focus{border-color: rgba(124,58,237,0.55)}
+    .hint{font-size:12px; color:var(--muted2); margin-top:6px;}
+    .badge{
+      display:inline-flex; align-items:center;
+      padding:6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      font-size:12px;
+      gap:8px;
+    }
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.62);
+      border: 1px solid rgba(255,255,255,0.16);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      color: rgba(255,255,255,0.92);
+      font-size:13px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+  /* Sticky left sidebar */
+  @media (min-width: 960px){
+    .sticky-sidebar {
+      position: sticky;
+      top: 20px;              /* distance from top of viewport */
+      align-self: start;      /* important for CSS grid */
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;       /* allow sidebar itself to scroll if needed */
+    }
+  }
+
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Sparking Scientific Creativity</h1>
+          <p>Breaking out of the academic silo</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn file" id="btnLoad">
+          ⬆️ Load JSON
+          <input id="fileInput" type="file" accept="application/json" />
+        </button>
+        <button class="btn" id="btnUseDemo" title="Loads a small in-browser demo schema.">✨ Demo</button>
+        <button class="btn" id="btnReset" title="Clear loaded data and local autosave.">🧹 Reset</button>
+        <button class="btn good" id="btnExport" disabled>⬇️ Export Responses</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Left: pinned context & progress -->
+      <div class="card sticky-sidebar">
+        <div class="hd">
+          <div>
+            <h2>Context</h2>
+            <div class="meta">Always visible while scoring</div>
+          </div>
+          <div class="badge" id="autosaveBadge" title="Autosave status">💾 <span>idle</span></div>
+        </div>
+        <div class="bd">
+          <div class="kvs" id="contextBox">
+            <div class="kv">
+              <div class="k">research_problem</div>
+              <div class="v muted2">Load a JSON file to begin.</div>
+            </div>
+            <div class="kv">
+              <div class="k">target_domain</div>
+              <div class="v muted2">—</div>
+            </div>
+            <div class="kv">
+              <div class="k">fine_grained_domain</div>
+              <div class="v muted2">—</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="kv">
+            <div class="k">Progress</div>
+            <div class="v">
+              <div class="progress" aria-label="Progress bar"><div id="progressBar"></div></div>
+              <div class="hint" id="progressText">0 / 0 pages</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="kv">
+            <div class="k">Navigation</div>
+            <div class="v muted">
+              Use <span class="mono">Back</span> / <span class="mono">Next</span>. Your inputs are autosaved locally.
+            </div>
+          </div>
+          <div class="divider"></div>
+            <div class="nav" style="margin-top:12px;">
+              <div class="left">
+                <button class="btn" id="btnBack" disabled>← Back</button>
+              </div>
+              <div class="right">
+                <button class="btn primary" id="btnNext" disabled>Next →</button>
+              </div>
+            </div>
+
+        </div>
+      </div>
+
+      <!-- Right: page content -->
+      <div class="card">
+        <div class="hd">
+          <div>
+            <h2 id="pageHeader">Welcome</h2>
+            <div class="meta" id="pageMeta">Load your experiment JSON to generate the evaluation form.</div>
+          </div>
+          <div class="badge" id="pageTypeBadge">📄 intro</div>
+        </div>
+        <div class="bd">
+          <div id="pageBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+<script>
+(() => {
+  const LS_KEY = "exp_eval_autosave_v1";
+
+  // ---------- Likert label sets ----------
+  const LABELS = {
+    questionChallenge: [
+      { n: 1, t: "Irrelevant", d: "Question + rationale not relevant to the research problem." },
+      { n: 2, t: "Weak", d: "Some relevance, but not a meaningful challenge." },
+      { n: 3, t: "Relevant", d: "Relevant, but not clearly a present challenge." },
+      { n: 4, t: "Strong", d: "Relevant and plausibly a current challenge." },
+      { n: 5, t: "Core challenge", d: "Directly reflects present, substantial challenges." },
+    ],
+    paperRelevance: [
+      { n: 1, t: "Not relevant", d: "Not relevant to the research problem." },
+      { n: 2, t: "Low", d: "Only tangential relevance." },
+      { n: 3, t: "Moderate", d: "Some meaningful relevance." },
+      { n: 4, t: "High", d: "Strong relevance." },
+      { n: 5, t: "Essential", d: "Central/critical relevance." },
+    ],
+    relevanceToProblem: [
+      { n: 1, t: "Off-target", d: "Unlikely to help with the research problem." },
+      { n: 2, t: "Weak", d: "Limited integration potential." },
+      { n: 3, t: "Moderate", d: "Some useful connection." },
+      { n: 4, t: "Strong", d: "Strong potential to integrate into your domain." },
+      { n: 5, t: "Direct hit", d: "Highly relevant; should inspire concrete integration." },
+    ],
+    insightfulness: [
+      { n: 1, t: "Obvious", d: "Not intellectually interesting / adds little." },
+      { n: 2, t: "Light", d: "Minor new perspective." },
+      { n: 3, t: "Interesting", d: "Some non-obvious perspective." },
+      { n: 4, t: "Insightful", d: "Clearly thought-provoking and non-trivial." },
+      { n: 5, t: "Deep", d: "Highly non-obvious; meaningfully reframes the problem." },
+    ],
+    interpretability: [
+      { n: 1, t: "Clear", d: "Rationale is easy to understand." },
+      { n: 2, t: "Mostly clear", d: "Minor ambiguity." },
+      { n: 3, t: "Mixed", d: "Somewhat hard to follow." },
+      { n: 4, t: "Hard", d: "Significant confusion / missing steps." },
+      { n: 5, t: "Opaque", d: "Very difficult to understand why it was suggested." },
+    ],
+    novelty: [
+      { n: 1, t: "Commonplace", d: "Obvious to target-domain experts." },
+      { n: 2, t: "Slight", d: "Minor novelty." },
+      { n: 3, t: "Moderate", d: "Some non-obvious elements." },
+      { n: 4, t: "Novel", d: "Non-obvious; meaningful new angle." },
+      { n: 5, t: "Breakthrough", d: "Highly unlikely to arise within-domain alone." },
+    ],
+    usefulness: [
+      { n: 1, t: "Not useful", d: "Unlikely to help address the problem." },
+      { n: 2, t: "Low", d: "Limited practical value." },
+      { n: 3, t: "Moderate", d: "Some interdisciplinary potential." },
+      { n: 4, t: "High", d: "Strong potential to address a gap/challenge." },
+      { n: 5, t: "Exceptional", d: "Very strong interdisciplinary potential + well-formed." },
+    ],
+  };
+
+  // ---------- App state ----------
+  let exp = null;          // loaded experiment JSON
+  let pages = [];          // wizard pages (computed)
+  let pageIdx = 0;
+  let responses = {};      // evaluator responses
+
+  // ---------- DOM ----------
+  const fileInput = document.getElementById("fileInput");
+  const btnUseDemo = document.getElementById("btnUseDemo");
+  const btnReset = document.getElementById("btnReset");
+  const btnExport = document.getElementById("btnExport");
+  const btnBack = document.getElementById("btnBack");
+  const btnNext = document.getElementById("btnNext");
+
+  const contextBox = document.getElementById("contextBox");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+
+  const pageHeader = document.getElementById("pageHeader");
+  const pageMeta = document.getElementById("pageMeta");
+  const pageTypeBadge = document.getElementById("pageTypeBadge");
+  const pageBody = document.getElementById("pageBody");
+
+  const autosaveBadge = document.getElementById("autosaveBadge");
+  const toast = document.getElementById("toast");
+
+  // ---------- Utilities ----------
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1700);
+  }
+
+  function setAutosaveStatus(text){
+    autosaveBadge.querySelector("span").textContent = text;
+  }
+
+  function safeStr(x){
+    if (x === null || x === undefined) return "";
+    return String(x);
+  }
+
+  function downloadText(filename, text){
+    const blob = new Blob([text], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function setContext(){
+    if(!exp){
+      contextBox.innerHTML = `
+        <div class="kv"><div class="k">research_problem</div><div class="v muted2">Load a JSON file to begin.</div></div>
+        <div class="kv"><div class="k">target_domain</div><div class="v muted2">—</div></div>
+        <div class="kv"><div class="k">fine_grained_domain</div><div class="v muted2">—</div></div>
+      `;
+      return;
+    }
+    contextBox.innerHTML = `
+      <div class="kv"><div class="k">research_problem</div><div class="v">${safeStr(exp.research_problem)}</div></div>
+      <div class="kv"><div class="k">target_domain</div><div class="v">${safeStr(exp.target_domain)}</div></div>
+      <div class="kv"><div class="k">fine_grained_domain</div><div class="v">${safeStr(exp.fine_grained_domain)}</div></div>
+    `;
+  }
+
+  function updateProgress(){
+    const total = pages.length || 0;
+    const cur = total ? (pageIdx + 1) : 0;
+    progressText.textContent = `${cur} / ${total} pages`;
+    progressBar.style.width = total ? `${Math.round((cur/total)*100)}%` : "0%";
+  }
+
+  function autosave(){
+    if(!exp) return;
+    setAutosaveStatus("saving…");
+    const payload = {
+      savedAt: new Date().toISOString(),
+      expMeta: {
+        research_problem: exp.research_problem,
+        target_domain: exp.target_domain,
+        fine_grained_domain: exp.fine_grained_domain
+      },
+      responses
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(payload));
+    setAutosaveStatus("saved");
+  }
+
+  function loadAutosaveIfCompatible(){
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return false;
+    try{
+      const obj = JSON.parse(raw);
+      // Compatibility: match the top context fields.
+      if(!exp) return false;
+      const m = obj.expMeta || {};
+      const ok = (m.research_problem === exp.research_problem &&
+                  m.target_domain === exp.target_domain &&
+                  m.fine_grained_domain === exp.fine_grained_domain);
+      if(ok && obj.responses){
+        responses = obj.responses;
+        showToast("Restored autosave");
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }
+
+  function resetAll(){
+    exp = null;
+    pages = [];
+    pageIdx = 0;
+    responses = {};
+    localStorage.removeItem(LS_KEY);
+    setContext();
+    render();
+    btnExport.disabled = true;
+    btnNext.disabled = true;
+    btnBack.disabled = true;
+    setAutosaveStatus("idle");
+    showToast("Reset");
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // ---------- Schema parsing ----------
+  function getDynamicQuestionKeys(expObj){
+    const fixed = new Set(["research_problem","target_domain","fine_grained_domain","idea_rankings"]);
+    return Object.keys(expObj).filter(k => !fixed.has(k));
+  }
+
+  function buildPages(expObj){
+    const allQuestionKeys = getDynamicQuestionKeys(expObj);
+
+    // Top 3 ideas
+    const ideas = Array.isArray(expObj.idea_rankings) ? [...expObj.idea_rankings] : [];
+    ideas.sort((a,b) => (a.rank ?? 999) - (b.rank ?? 999));
+    const topIdeas = ideas.slice(0, 3);
+
+    // Collect questions referenced by top ideas
+    const questionsWithTopIdeas = new Set(
+      topIdeas
+        .map(idea => idea.question)
+        .filter(Boolean)
+    );
+
+    // Only keep questions that have at least one top-3 idea
+    const filteredQuestionKeys = allQuestionKeys.filter(q =>
+      questionsWithTopIdeas.has(q)
+    );
+
+    const result = [];
+
+    // Intro
+    result.push({ type: "intro" });
+
+    // Only evaluate relevant questions
+    for (const qKey of filteredQuestionKeys) {
+      result.push({ type: "question", qKey });
+    }
+
+    // One page per top idea (takeaways)
+    for (const idea of topIdeas) {
+      result.push({ type: "idea_takeaways", ideaRank: idea.rank, idea });
+    }
+
+    // One page per top idea (idea-level scoring)
+    for (const idea of topIdeas) {
+      result.push({ type: "idea_level", ideaRank: idea.rank, idea });
+    }
+
+    // Review/export
+    result.push({ type: "review" });
+
+    return result;
+  }
+
+
+  // ---------- UI primitives ----------
+  function ensurePath(obj, pathArr, initValue){
+    let cur = obj;
+    for(let i=0;i<pathArr.length;i++){
+      const k = pathArr[i];
+      if(i === pathArr.length-1){
+        if(cur[k] === undefined) cur[k] = initValue;
+        return cur[k];
+      }
+      if(cur[k] === undefined) cur[k] = {};
+      cur = cur[k];
+    }
+  }
+
+  function getAt(obj, pathArr){
+    let cur = obj;
+    for(const k of pathArr){
+      if(cur == null) return undefined;
+      cur = cur[k];
+    }
+    return cur;
+  }
+
+  function renderLikert({ id, labels, value, onSelect }){
+    const wrap = document.createElement("div");
+    wrap.className = "likert";
+    labels.forEach(item => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("data-likert-id", id);
+      b.setAttribute("data-value", item.n);
+      b.className = (value === item.n) ? "selected" : "";
+      b.innerHTML = `<div class="n">${item.n}. ${item.t}</div><div class="lbl">${item.d}</div>`;
+      b.addEventListener("click", () => onSelect(item.n));
+      wrap.appendChild(b);
+    });
+    return wrap;
+  }
+
+  function renderTextArea({ value, placeholder, onInput }){
+    const t = document.createElement("textarea");
+    t.placeholder = placeholder || "";
+    t.value = value || "";
+    t.addEventListener("input", () => onInput(t.value));
+    return t;
+  }
+
+  // ---------- Page renderers ----------
+  function renderIntro(){
+    pageHeader.textContent = "Welcome";
+    pageMeta.textContent = "Upload your experiment JSON. The form will generate pages for each question and the top-3 ideas.";
+    pageTypeBadge.textContent = "📄 intro";
+
+    const el = document.createElement("div");
+    el.innerHTML = `
+      <p class="pageSub">
+  Thanks for helping evaluate this study. This short, guided form is designed to make the review process clear and manageable—one step at a time.
+</p>
+
+<div class="section">
+  <h3>What you’ll be asked to do</h3>
+  <ul class="muted" style="margin:8px 0 0 18px; line-height:1.6;">
+    <li>
+      Review a small set of research questions and judge whether they represent
+      real or emerging challenges for the stated research problem.
+    </li>
+    <li>
+      Look at up to <b>three representative papers</b> per question and rate how
+      relevant each one is to the research problem.
+    </li>
+    <li>
+      Evaluate the top-ranked ideas by scoring how <b>relevant</b>, <b>insightful</b>,
+      and <b>easy to understand</b> their key takeaways are.
+    </li>
+    <li>
+      Assess each idea’s <b>novelty</b> and <b>usefulness</b> based on its title,
+      synthesis approach, and concrete realization.
+    </li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>Good to know</h3>
+  <ul class="muted" style="margin:8px 0 0 18px; line-height:1.6;">
+    <li>
+      You’ll only see a few items at a time—use <b>Next</b> and <b>Back</b> to move through the form.
+    </li>
+    <li>
+      Notes fields are optional and can be used to flag uncertainties, assumptions, or edge cases.
+    </li>
+    <li>
+      Your responses are saved automatically in this browser, so you can safely step away and return later.
+    </li>
+  </ul>
+</div>
+
+    `;
+    return el;
+  }
+
+  function renderQuestionPage(qKey){
+    const qObj = exp[qKey] || {};
+    const rationale = safeStr(qObj.rationale);
+    const papersObj = qObj.target_domain_papers || {};
+    const paperTitles = Object.keys(papersObj).slice(0, 3);
+
+    pageHeader.textContent = "Review this question";
+    pageMeta.textContent =
+      "First, decide whether this question represents a real challenge for the research problem. Then, rate how relevant each paper is to solving that problem.";
+
+    pageTypeBadge.textContent = "❓question";
+
+    const el = document.createElement("div");
+
+    // Ensure response slots exist
+    ensurePath(responses, ["questions", qKey], {});
+    const rBase = getAt(responses, ["questions", qKey]);
+
+    // Question text
+    const qCard = document.createElement("div");
+    qCard.className = "section";
+    qCard.innerHTML = `
+      <h3>Question</h3>
+      <div class="kv"><div class="k">Prompt</div><div class="v">${safeStr(qKey)}</div></div>
+    `;
+    el.appendChild(qCard);
+
+    // Rationale + rating
+    const rCard = document.createElement("div");
+    rCard.className = "section";
+    rCard.innerHTML = `
+      <h3>Rationale</h3>
+      <div class="kv"><div class="k">Text</div><div class="v">${rationale || "<span class='muted2'>(missing)</span>"}</div></div>
+      <div class="hint">Score: “Is the question itself truly a partially/substantially addressed challenge for the research problem?”</div>
+    `;
+    const current = rBase.question_rationale_challenge_score ?? null;
+    rCard.appendChild(renderLikert({
+      id: `q.${qKey}.challenge`,
+      labels: LABELS.questionChallenge,
+      value: current,
+      onSelect: (n) => {
+        rBase.question_rationale_challenge_score = n;
+        autosave();
+        render(); // refresh selection visuals
+      }
+    }));
+
+    // Optional notes
+    rCard.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:10px;">Optional notes</div>`;
+    rCard.appendChild(renderTextArea({
+      value: rBase.notes || "",
+      placeholder: "Add any context (e.g., why it is / is not a challenge; missing nuance; assumptions).",
+      onInput: (txt) => { rBase.notes = txt; autosave(); }
+    }));
+
+    el.appendChild(rCard);
+
+    // Papers
+    const pCard = document.createElement("div");
+    pCard.className = "section";
+    pCard.innerHTML = `
+      <h3>Target-domain papers</h3>
+      <div class="muted">For each paper, you’ll see the title and a snippet of the paper.</div>
+    `;
+
+    ensurePath(rBase, ["papers"], {});
+
+    paperTitles.forEach(title => {
+      const snippets = papersObj[title];
+      const firstSnippet = Array.isArray(snippets) && snippets.length ? safeStr(snippets[0]) : "";
+      ensurePath(rBase.papers, [title], {});
+      const pResp = rBase.papers[title];
+
+      const blk = document.createElement("div");
+      blk.className = "section";
+      blk.style.marginTop = "12px";
+      blk.innerHTML = `
+        <div class="kv">
+          <div class="k">Paper</div>
+          <div class="v"><b>${safeStr(title)}</b></div>
+        </div>
+        <div class="kv" style="margin-top:10px;">
+          <div class="k">Snippet</div>
+          <div class="v">${firstSnippet ? firstSnippet : "<span class='muted2'>(missing)</span>"}</div>
+        </div>
+        <br>
+        <div class="hint">Score: “How relevant is this paper to the research problem?”</div>
+      `;
+
+      const v = pResp.relevance_score ?? null;
+      blk.appendChild(renderLikert({
+        id: `q.${qKey}.paper.${title}`,
+        labels: LABELS.paperRelevance,
+        value: v,
+        onSelect: (n) => {
+          pResp.relevance_score = n;
+          autosave();
+          render();
+        }
+      }));
+
+      blk.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:10px;">Optional notes</div>`;
+      blk.appendChild(renderTextArea({
+        value: pResp.notes || "",
+        placeholder: "Optional: why this paper is / is not relevant.",
+        onInput: (txt) => { pResp.notes = txt; autosave(); }
+      }));
+
+      pCard.appendChild(blk);
+    });
+
+    el.appendChild(pCard);
+    return el;
+  }
+
+  function renderIdeaTakeawaysPage(idea){
+    const rank = idea.rank ?? "?";
+    const src = safeStr(idea.source_domain);
+    const q = safeStr(idea.question);
+
+    const frag = idea.idea_fragment || {};
+    const title = safeStr(frag.title);
+    const core = safeStr(frag.core_insight);
+
+    const mech = frag.integration_mechanism || {};
+    const takeaways = Array.isArray(mech.selected_takeaways) ? mech.selected_takeaways : [];
+
+    pageHeader.textContent = `Top idea #${rank}: Takeaways`;
+    pageMeta.textContent = `Score each selected takeaway (relevance / insightfulness / interpretability). Mechanism explanations (how the takeaway works and why it addresses the challenge) are collapsible.`;
+    pageTypeBadge.textContent = "💡 takeaways";
+
+    const el = document.createElement("div");
+
+    ensurePath(responses, ["ideas", String(rank)], {});
+    const iBase = getAt(responses, ["ideas", String(rank)]);
+
+    const hdr = document.createElement("div");
+    hdr.className = "section";
+    hdr.innerHTML = `
+      <div class="pill">Top idea #${rank}</div>
+        <div class="section" style="margin-top:10px;">
+          <div class="kv">
+            <div class="k">Source domain</div>
+            <div class="v"><b>${src || "—"}</b></div>
+          </div>
+        </div>
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Question</div>
+        <div class="v">${q}</div>
+      </div>
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Idea title</div>
+        <div class="v"><b>${title || "(missing)"}</b></div>
+      </div>
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Core insight</div>
+        <div class="v">${core || "<span class='muted2'>(missing)</span>"}</div>
+      </div>
+    `;
+    el.appendChild(hdr);
+
+    ensurePath(iBase, ["takeaways"], {});
+    const tBase = iBase.takeaways;
+
+    takeaways.forEach((tw, idx) => {
+      const tid = safeStr(tw.takeaway_id || `t${idx+1}`);
+      ensurePath(tBase, [tid], {});
+      const tr = tBase[tid];
+
+      const card = document.createElement("div");
+      card.className = "section";
+      card.style.marginTop = "12px";
+
+      const selRat = safeStr(tw.selection_rationale);
+      const sdf = safeStr(tw.source_domain_formulation);
+      const mex = safeStr(tw.mechanism_explanation);
+
+      card.innerHTML = `
+        <div class="pill">takeaway ${tid}</div>
+        <div class="kv" style="margin-top:10px;">
+          <div class="k">How does the source domain approach this problem?</div>
+          <div class="v">${sdf || "<span class='muted2'>(missing)</span>"}</div>
+        </div>
+        <div class="kv" style="margin-top:10px;">
+          <div class="k">Why is this takeaway relevant to your research problem?</div>
+          <div class="v">${selRat || "<span class='muted2'>(missing)</span>"}</div>
+        </div>
+        <div style="margin-top:10px;"></div>
+      `;
+
+      // Mechanism explanation dropdown (hidden by default)
+      const det = document.createElement("details");
+      det.innerHTML = `
+        <summary>How this takeaway works and why it addresses the challenge.</summary>
+        <div class="content">${mex ? mex : "<span class='muted2'>(missing)</span>"}</div>
+      `;
+      card.appendChild(det);
+
+      // (a) relevance
+      card.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:12px;"><b>(a)</b> Relevance to the problem</div>`;
+      card.appendChild(renderLikert({
+        id: `idea.${rank}.tw.${tid}.rel`,
+        labels: LABELS.relevanceToProblem,
+        value: tr.relevance_score ?? null,
+        onSelect: (n) => { tr.relevance_score = n; autosave(); render(); }
+      }));
+
+      // (b) insightfulness
+      card.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:12px;"><b>(b)</b> Insightfulness</div>`;
+      card.appendChild(renderLikert({
+        id: `idea.${rank}.tw.${tid}.ins`,
+        labels: LABELS.insightfulness,
+        value: tr.insightfulness_score ?? null,
+        onSelect: (n) => { tr.insightfulness_score = n; autosave(); render(); }
+      }));
+
+      // (c) interpretability
+      card.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:12px;"><b>(c)</b> Interpretability (difficulty of understanding the rationale)</div>`;
+      card.appendChild(renderLikert({
+        id: `idea.${rank}.tw.${tid}.int`,
+        labels: LABELS.interpretability,
+        value: tr.interpretability_score ?? null,
+        onSelect: (n) => { tr.interpretability_score = n; autosave(); render(); }
+      }));
+
+      card.appendChild(document.createElement("div")).outerHTML = `<div class="hint" style="margin-top:10px;">Optional notes</div>`;
+      card.appendChild(renderTextArea({
+        value: tr.notes || "",
+        placeholder: "Optional: missing links in the rationale, mismatch to domain, or especially good ideas.",
+        onInput: (txt) => { tr.notes = txt; autosave(); }
+      }));
+
+      el.appendChild(card);
+    });
+
+    // page notes
+    const notes = document.createElement("div");
+    notes.className = "section";
+    notes.innerHTML = `<h3>Notes for this idea (optional)</h3>`;
+    notes.appendChild(renderTextArea({
+      value: iBase.takeaways_page_notes || "",
+      placeholder: "Optional: overall thoughts on the set of takeaways / coherence / redundancy.",
+      onInput: (txt) => { iBase.takeaways_page_notes = txt; autosave(); }
+    }));
+    el.appendChild(notes);
+
+    return el;
+  }
+
+  function renderIdeaLevelPage(idea){
+    const rank = idea.rank ?? "?";
+    const src = safeStr(idea.source_domain);
+
+    const frag = idea.idea_fragment || {};
+    const title = safeStr(frag.title);
+
+    const integration = frag.integration_mechanism || {};
+    const synthesis = safeStr(integration.synthesis_approach);
+
+    const concrete = frag.concrete_realization || {};
+    const proposed = safeStr(concrete.proposed_approach);
+
+    pageHeader.textContent = `Top idea #${rank}: Overall evaluation`;
+    pageMeta.textContent =
+      "Consider the idea as a whole (title, synthesis approach, and concrete realization) and score its novelty and usefulness.";
+    pageTypeBadge.textContent = "🧪 idea";
+
+    const el = document.createElement("div");
+
+    ensurePath(responses, ["ideas", String(rank)], {});
+    const iBase = getAt(responses, ["ideas", String(rank)]);
+    ensurePath(iBase, ["overall"], {});
+
+    const hdr = document.createElement("div");
+    hdr.className = "section";
+    hdr.innerHTML = `
+      <div class="pill">Top idea #${rank}</div>
+
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Source domain</div>
+        <div class="v"><b>${src || "—"}</b></div>
+      </div>
+
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Title</div>
+        <div class="v"><b>${title || "(missing)"}</b></div>
+      </div>
+
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Synthesis approach</div>
+        <div class="v">${synthesis || "<span class='muted2'>(missing)</span>"}</div>
+      </div>
+
+      <div class="kv" style="margin-top:10px;">
+        <div class="k">Concrete realization</div>
+        <div class="v">${proposed || "<span class='muted2'>(missing)</span>"}</div>
+      </div>
+    `;
+    el.appendChild(hdr);
+
+    const s = document.createElement("div");
+    s.className = "section";
+    s.style.marginTop = "12px";
+
+    s.innerHTML = `
+      <h3>Overall assessment</h3>
+      <div class="hint"><b>(a)</b> Novelty for the research problem</div>
+    `;
+
+    s.appendChild(renderLikert({
+      id: `idea.${rank}.overall.novelty`,
+      labels: LABELS.novelty,
+      value: iBase.overall.novelty_score ?? null,
+      onSelect: (n) => { iBase.overall.novelty_score = n; autosave(); render(); }
+    }));
+
+    s.appendChild(document.createElement("div")).outerHTML =
+      `<div class="hint" style="margin-top:12px;"><b>(b)</b> Usefulness / interdisciplinary potential</div>`;
+
+    s.appendChild(renderLikert({
+      id: `idea.${rank}.overall.usefulness`,
+      labels: LABELS.usefulness,
+      value: iBase.overall.usefulness_score ?? null,
+      onSelect: (n) => { iBase.overall.usefulness_score = n; autosave(); render(); }
+    }));
+
+    s.appendChild(document.createElement("div")).outerHTML =
+      `<div class="hint" style="margin-top:10px;">Optional notes</div>`;
+
+    s.appendChild(renderTextArea({
+      value: iBase.overall.notes || "",
+      placeholder:
+        "Optional: strengths, weaknesses, feasibility concerns, or how this idea could be improved.",
+      onInput: (txt) => { iBase.overall.notes = txt; autosave(); }
+    }));
+
+    el.appendChild(s);
+    return el;
+  }
+
+  function renderReview(){
+    pageHeader.textContent = "Review & Export";
+    pageMeta.textContent = "Skim what you entered and export as JSON.";
+    pageTypeBadge.textContent = "✅ review";
+
+    const el = document.createElement("div");
+
+    const s = document.createElement("div");
+    s.className = "section";
+    s.innerHTML = `
+      <h3>Export</h3>
+      <div class="muted">
+        Click <b>Export Responses</b> in the top-right to download a JSON file containing:
+        context metadata + all ratings + notes.
+      </div>
+      <div class="hint" style="margin-top:10px;">Preview (read-only)</div>
+    `;
+
+    const preview = document.createElement("textarea");
+    preview.readOnly = true;
+    preview.style.minHeight = "260px";
+    preview.value = JSON.stringify({
+      meta: {
+        research_problem: exp?.research_problem,
+        target_domain: exp?.target_domain,
+        fine_grained_domain: exp?.fine_grained_domain
+      },
+      responses
+    }, null, 2);
+    s.appendChild(preview);
+
+    el.appendChild(s);
+    return el;
+  }
+
+  // ---------- Main render ----------
+  function render(){
+    setContext();
+    updateProgress();
+
+    // Navigation buttons state
+    btnBack.disabled = !(exp && pages.length && pageIdx > 0);
+    btnNext.disabled = !(exp && pages.length && pageIdx < pages.length - 1);
+    btnExport.disabled = !exp;
+
+    if(!exp){
+      pageBody.innerHTML = "";
+      pageBody.appendChild(renderIntro());
+      pageHeader.textContent = "Welcome";
+      pageMeta.textContent = "Load your experiment JSON to generate the evaluation form.";
+      pageTypeBadge.textContent = "📄 intro";
+      return;
+    }
+
+    const p = pages[pageIdx];
+    pageBody.innerHTML = "";
+
+    if(p.type === "intro") pageBody.appendChild(renderIntro());
+    else if(p.type === "question") pageBody.appendChild(renderQuestionPage(p.qKey));
+    else if(p.type === "idea_takeaways") pageBody.appendChild(renderIdeaTakeawaysPage(p.idea));
+    else if(p.type === "idea_level") pageBody.appendChild(renderIdeaLevelPage(p.idea));
+    else if(p.type === "review") pageBody.appendChild(renderReview());
+    else pageBody.textContent = "Unknown page type.";
+  }
+
+  // ---------- Loaders ----------
+  async function loadFromFile(file){
+    const text = await file.text();
+    const obj = JSON.parse(text);
+
+    // Basic validation
+    const required = ["research_problem","target_domain","fine_grained_domain","idea_rankings"];
+    for(const k of required){
+      if(!(k in obj)){
+        showToast(`Missing key: ${k}`);
+      }
+    }
+    exp = obj;
+    pages = buildPages(exp);
+    pageIdx = 0;
+    responses = {};
+    setAutosaveStatus("idle");
+    loadAutosaveIfCompatible();
+    render();
+    showToast("Loaded JSON");
+  }
+
+  function loadDemo(){
+    // Minimal demo that matches the expected schema.
+    exp = {
+      research_problem: "Demo: Influence is static; we want trajectory-aware influence.",
+      target_domain: "Computer Science",
+      fine_grained_domain: "Natural Language Processing",
+      "Demo question: Do trajectory effects change per-example influence?": {
+        rationale: "Trajectory effects can cause non-monotonic changes in influence across checkpoints.",
+        target_domain_papers: {
+          "Demo Paper A": ["This is the first snippet for Paper A."],
+          "Demo Paper B": ["This is the first snippet for Paper B."]
+        }
+      },
+      idea_rankings: [
+        {
+          rank: 1,
+          question: "Demo idea question",
+          source_domain: "Physics",
+          idea_fragment: {
+            title: "Demo idea title",
+            core_insight: "Combine response theory + ROMs to approximate trajectory influence.",
+            integration_mechanism: {
+              selected_takeaways: [
+                {
+                  takeaway_id: "t1",
+                  selection_rationale: "Adjoints give sensitivities cheaply.",
+                  source_domain_formulation: "Adjoint sensitivity analysis.",
+                  mechanism_explanation: "Solve forward + adjoint to get gradients without per-parameter reruns."
+                }
+              ],
+              synthesis_approach: "Use a reduced subspace and solve adjoint dynamics."
+            },
+            concrete_realization: {
+              proposed_approach: "Snapshot grads; build POD basis; solve adjoint in reduced space."
+            }
+          }
+        }
+      ]
+    };
+    pages = buildPages(exp);
+    pageIdx = 0;
+    responses = {};
+    setAutosaveStatus("idle");
+    render();
+    showToast("Loaded demo");
+  }
+
+  // ---------- Events ----------
+  fileInput.addEventListener("change", async (e) => {
+    const f = e.target.files?.[0];
+    if(!f) return;
+    try{
+      await loadFromFile(f);
+    }catch(err){
+      console.error(err);
+      showToast("Failed to load JSON");
+    }finally{
+      fileInput.value = "";
+    }
+  });
+
+  btnUseDemo.addEventListener("click", loadDemo);
+
+  btnReset.addEventListener("click", resetAll);
+
+  btnBack.addEventListener("click", () => {
+    if(!pages.length) return;
+    pageIdx = Math.max(0, pageIdx - 1);
+    render();
+    scrollToTop();
+  });
+
+
+  btnNext.addEventListener("click", () => {
+    if(!pages.length) return;
+    pageIdx = Math.min(pages.length - 1, pageIdx + 1);
+    render();
+    scrollToTop();
+  });
+
+
+  btnExport.addEventListener("click", () => {
+    if(!exp) return;
+    const out = {
+      exportedAt: new Date().toISOString(),
+      meta: {
+        research_problem: exp.research_problem,
+        target_domain: exp.target_domain,
+        fine_grained_domain: exp.fine_grained_domain
+      },
+      responses
+    };
+    downloadText("evaluation_responses.json", JSON.stringify(out, null, 2));
+    showToast("Exported JSON");
+  });
+
+  // Initial: show intro, attempt to restore if a previous session exists (no exp yet => cannot match)
+  render();
+})();
+</script>
+</body>
+</html>
