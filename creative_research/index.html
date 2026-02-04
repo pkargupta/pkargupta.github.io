@@ -739,14 +739,36 @@
     ensurePath(responses, ["questions", qKey], {});
     const rBase = getAt(responses, ["questions", qKey]);
 
-    // Question text
-    const qCard = document.createElement("div");
-    qCard.className = "section";
-    qCard.innerHTML = `
+    // // Question text
+    // const qCard = document.createElement("div");
+    // qCard.className = "section";
+    // qCard.innerHTML = `
+    //   <h3>Question</h3>
+    //   <div class="kv"><div class="k">Prompt</div><div class="v">${safeStr(qKey)}</div></div>
+    // `;
+
+    // Find a simple_question if any top idea linked to this question has one
+    const simpleQ =
+      (exp.idea_rankings || [])
+        .find(i => i.question === qKey && i.simple_question)
+        ?.simple_question || "";
+
+    const qBox = document.createElement("div");
+    qBox.className = "section";
+    qBox.innerHTML = `
       <h3>Question</h3>
-      <div class="kv"><div class="k">Prompt</div><div class="v">${safeStr(qKey)}</div></div>
+      <div class="v"><b>${qKey}</b></div>
+      ${
+        simpleQ
+          ? `<div class="hint" style="margin-top:6px;">
+               <b>Simplified:</b> ${safeStr(simpleQ)}
+             </div>`
+          : ""
+      }
     `;
-    el.appendChild(qCard);
+
+
+    el.appendChild(qBox);
 
     // Rationale + rating
     const rCard = document.createElement("div");
@@ -913,9 +935,10 @@
 
       // Mechanism explanation dropdown (hidden by default)
       const det = document.createElement("details");
+      det.open = true; // 👈 auto-open by default
       det.innerHTML = `
         <summary>How this takeaway works and why it addresses the challenge.</summary>
-        <div class="content">${mex ? mex : "<span class='muted2'>(missing)</span>"}</div>
+        <div class="content">${mech || "(missing)"}</div>
       `;
       card.appendChild(det);
 
