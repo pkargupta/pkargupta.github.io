@@ -580,7 +580,7 @@
     // Top 3 ideas
     const ideas = Array.isArray(expObj.idea_rankings) ? [...expObj.idea_rankings] : [];
     ideas.sort((a,b) => (a.rank ?? 999) - (b.rank ?? 999));
-    const topIdeas = ideas.slice(0, 3);
+    const topIdeas = ideas.slice(0, 4);
 
     // Collect questions referenced by top ideas
     const questionsWithTopIdeas = new Set(
