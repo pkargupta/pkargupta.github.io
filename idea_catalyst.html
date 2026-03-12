@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration</title>
+  <meta name="description" content="Project page for Idea-Catalyst, a metacognition-driven framework for interdisciplinary research ideation.">
+  <style>
+    :root {
+      --bg: #f4efe5;
+      --paper: rgba(255, 251, 245, 0.88);
+      --panel: rgba(250, 244, 234, 0.92);
+      --ink: #1f2430;
+      --muted: #5d6472;
+      --accent: #0f766e;
+      --accent-2: #c85c3a;
+      --accent-3: #d8c18d;
+      --line: rgba(31, 36, 48, 0.12);
+      --shadow: 0 18px 50px rgba(56, 44, 24, 0.12);
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+      --sans: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(200, 92, 58, 0.14), transparent 24%),
+        linear-gradient(180deg, #f7f2e9 0%, #f3ecdf 45%, #efe6d7 100%);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 20px auto 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 250, 241, 0.78);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+    }
+
+    .topbar strong,
+    .hero h1,
+    h2,
+    h3,
+    .stat-value,
+    .quote {
+      font-family: var(--serif);
+    }
+
+    .topbar nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .topbar nav a {
+      text-decoration: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      padding: 34px;
+      margin-top: 18px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -140px auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(15, 118, 110, 0.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.1);
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.5rem, 6vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .hero p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.03rem;
+      max-width: 64ch;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 24px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .hero-meta span {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.05);
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      background: var(--ink);
+      color: #fffaf4;
+      box-shadow: 0 12px 24px rgba(31, 36, 48, 0.16);
+    }
+
+    .button.secondary {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .hero-card {
+      align-self: stretch;
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(249, 238, 218, 0.92)),
+        linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(200, 92, 58, 0.08));
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
+    .hero-card .mini-label,
+    .figure-card .mini-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .hero-card h3 {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .hero-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    section {
+      margin-top: 18px;
+      padding: 28px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .section-copy {
+      margin: 0 0 20px;
+      max-width: 74ch;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+
+    .stat-value {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.94rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .stat p,
+    .grid-card p,
+    .figure-card p,
+    .quote-credit,
+    .footer-note {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .three-col,
+    .two-col,
+    .figures,
+    .questions {
+      display: grid;
+      gap: 16px;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .two-col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-card,
+    .figure-card,
+    .quote-card {
+      padding: 20px;
+      border-radius: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+
+    .grid-card h3,
+    .figure-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.22rem;
+      line-height: 1.1;
+    }
+
+    .step-number {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .visual-frame {
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(216, 193, 141, 0.18));
+      min-height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .visual-frame.placeholder {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .visual-frame.placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(15, 118, 110, 0.14), transparent 40%),
+        linear-gradient(320deg, rgba(200, 92, 58, 0.16), transparent 42%);
+      z-index: -1;
+    }
+
+    .visual-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+    }
+
+    .placeholder-copy strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .questions {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .question-card {
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px dashed rgba(31, 36, 48, 0.18);
+      background: rgba(255, 250, 241, 0.72);
+    }
+
+    .question-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .quote-card {
+      background:
+        linear-gradient(180deg, rgba(255, 247, 235, 0.95), rgba(249, 238, 218, 0.9));
+    }
+
+    .quote {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      line-height: 1.15;
+      margin: 0 0 12px;
+      max-width: 20ch;
+    }
+
+    .citation {
+      font-family: var(--serif);
+      font-size: 1rem;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.7);
+      overflow-x: auto;
+    }
+
+    footer {
+      padding: 26px 4px 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero,
+      .stats,
+      .three-col,
+      .two-col,
+      .questions {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 26px;
+      }
+
+      section {
+        padding: 22px;
+      }
+
+      .topbar {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <strong>Idea-Catalyst</strong>
+      <nav>
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#figures">Figures</a>
+        <a href="#cite">Citation</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div>
+          <span class="eyebrow">Project Page</span>
+          <h1>Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration</h1>
+          <p>
+            This paper introduces <strong>Idea-Catalyst</strong>, a metacognition-driven framework for
+            helping humans and language models move beyond within-domain brainstorming. Instead of jumping
+            straight to solutions, the system decomposes a research goal, surfaces unresolved target-domain
+            challenges, reframes them into domain-agnostic problems, and searches other scientific fields
+            for concepts worth importing back.
+          </p>
+          <div class="hero-meta">
+            <span>14-page KDD submission</span>
+            <span>Focus: scientific discovery, creative reasoning, human-AI collaboration</span>
+            <span>Status: author metadata can be added later</span>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="./KDD_Submission.pdf">Read PDF</a>
+            <a class="button secondary" href="#results">See Results</a>
+            <a class="button secondary" href="#figures">Figure Placeholders</a>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <span class="mini-label">Core Claim</span>
+          <h3>Better interdisciplinary ideas come from guided reasoning, not just broader retrieval.</h3>
+          <ul>
+            <li>Average novelty improves by 21% over the strongest retrieval baseline.</li>
+            <li>Average insightfulness improves by 16% while staying grounded in the target problem.</li>
+            <li>Human study participants found the framework effective for early-stage ideation.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p class="section-copy">
+          Most AI-for-science systems optimize for fast solution generation. This paper argues that the more
+          important missing layer is the reasoning process behind creative, interdisciplinary ideation. Idea-Catalyst
+          is built for that earlier stage: helping researchers identify where a field is stuck, where adjacent ideas
+          might transfer, and which cross-domain signals are actually worth exploring.
+        </p>
+
+        <div class="stats">
+          <article class="stat">
+            <div class="stat-value">+21%</div>
+            <div class="stat-label">Novelty Gain</div>
+            <p>Average relative improvement over Guided Dual on idea-level novelty.</p>
+          </article>
+          <article class="stat">
+            <div class="stat-value">+16%</div>
+            <div class="stat-label">Insightfulness Gain</div>
+            <p>Average relative improvement over Guided Dual on takeaway-level insightfulness.</p>
+          </article>
+          <article class="stat">
+            <div class="stat-value">6</div>
+            <div class="stat-label">PhD Participants</div>
+            <p>Human study participants from ML, NLP, and Electrical Engineering.</p>
+          </article>
+          <article class="stat">
+            <div class="stat-value">4.00/5</div>
+            <div class="stat-label">Research Questions</div>
+            <p>Average human-study rating for the generated research questions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="method">
+        <h2>How Idea-Catalyst Works</h2>
+        <p class="section-copy">
+          The framework is designed around a simple principle: interdisciplinary inspiration should be earned
+          through structured analysis, not guessed through unconstrained retrieval. It operationalizes three
+          metacognitive behaviors from the paper: clarifying research goals, recognizing unresolved challenges,
+          and strategically exploring external domains with high impact potential.
+        </p>
+
+        <div class="three-col">
+          <article class="grid-card">
+            <div class="step-number">1</div>
+            <h3>Analyze the target field</h3>
+            <p>
+              Start from an abstract research goal and derive concrete target-domain research questions,
+              unresolved tensions, and open conceptual gaps.
+            </p>
+          </article>
+          <article class="grid-card">
+            <div class="step-number">2</div>
+            <h3>Rewrite the challenge</h3>
+            <p>
+              Convert domain-specific obstacles into domain-agnostic conceptual problems so other disciplines
+              become searchable on the right abstraction level.
+            </p>
+          </article>
+          <article class="grid-card">
+            <div class="step-number">3</div>
+            <h3>Rank cross-domain inspiration</h3>
+            <p>
+              Retrieve source-domain ideas, synthesize takeaways, and rank domains by interdisciplinary
+              potential before integrating them back into the target problem.
+            </p>
+          </article>
+        </div>
+
+        <div class="two-col" style="margin-top: 16px;">
+          <article class="grid-card">
+            <span class="mini-label">Framework Figure</span>
+            <h3>Current local asset: framework diagram</h3>
+            <div class="visual-frame">
+              <img src="./figures/framework_diagram.png" alt="Framework diagram for Idea-Catalyst">
+            </div>
+            <p>
+              This uses the existing local diagram asset. If you export the final paper figure separately,
+              swap this image with the camera-ready version.
+            </p>
+          </article>
+          <article class="grid-card">
+            <span class="mini-label">Illustrative Example</span>
+            <h3>Why this matters for creative science</h3>
+            <p>
+              The paper uses reinforcement learning as a motivating example: a mature research area formed through
+              the convergence of behavioral psychology, control theory, and animal learning psychology rather than
+              a single-field breakthrough. Idea-Catalyst tries to recreate that kind of boundary-spanning reasoning
+              in a systematic way.
+            </p>
+            <div class="questions">
+              <div class="question-card">
+                <strong>What is the field trying to do?</strong>
+                Turn broad goals into analyzable research questions.
+              </div>
+              <div class="question-card">
+                <strong>Where is the field still stuck?</strong>
+                Surface unresolved challenges instead of generating generic ideas.
+              </div>
+              <div class="question-card">
+                <strong>Which outside domains are worth borrowing from?</strong>
+                Prioritize external concepts with real transfer potential.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="results">
+        <h2>Results</h2>
+        <p class="section-copy">
+          Across both takeaway-level and idea-level evaluations, the method consistently beats retrieval-only
+          baselines on the dimensions that matter for exploratory research: insightfulness and novelty. The paper’s
+          interpretation is important here: more diverse retrieval alone is not enough. What matters is selecting
+          source domains that offer meaningful conceptual leverage for the target problem.
+        </p>
+
+        <div class="three-col">
+          <article class="grid-card">
+            <span class="mini-label">Takeaway Evaluation</span>
+            <h3>Highest insightfulness at every top-k</h3>
+            <p>
+              Idea-Catalyst reaches the strongest takeaway-level insightfulness scores across top-1, top-2, and
+              top-3 comparisons, averaging a 16.22% relative improvement over Guided Dual.
+            </p>
+          </article>
+          <article class="grid-card">
+            <span class="mini-label">Idea Evaluation</span>
+            <h3>Novelty improves without drifting off-task</h3>
+            <p>
+              On final integrated ideas, the paper reports a 21.38% average relative novelty gain over Guided Dual
+              and substantially stronger performance than free-form source retrieval.
+            </p>
+          </article>
+          <article class="grid-card">
+            <span class="mini-label">Ablation Signal</span>
+            <h3>Decomposition and ranking both matter</h3>
+            <p>
+              Removing target-domain decomposition or replacing interdisciplinary potential-based ranking weakens
+              performance, suggesting the gains come from structured reasoning rather than cosmetic rewriting.
+            </p>
+          </article>
+        </div>
+
+        <div class="two-col" style="margin-top: 16px;">
+          <article class="quote-card">
+            <p class="quote">
+              Effective interdisciplinary ideation depends not only on increasing domain diversity, but on critically
+              selecting source domains which yield meaningful conceptual insights.
+            </p>
+            <p class="quote-credit">Paraphrased from the paper’s analysis of source-domain selection and Figure 4.</p>
+          </article>
+          <article class="grid-card">
+            <span class="mini-label">Human Study</span>
+            <h3>Positive signal from real researchers</h3>
+            <p>
+              Six PhD researchers evaluated the system on their own problems. Generated research questions received
+              a 4.00/5 average score, retrieved literature scored 3.50/5, source-domain takeaways were judged
+              moderately relevant and insightful, and the final ideas were rated more novel than useful, reflecting
+              the common gap between ideation and execution.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="figures">
+        <h2>Figures To Showcase</h2>
+        <p class="section-copy">
+          The cards below are ready-to-use placeholders for social sharing and can be replaced with exported figure
+          crops from the paper. Each one points to a specific visual already present in the submission.
+        </p>
+
+        <div class="figures three-col">
+          <article class="figure-card">
+            <span class="mini-label">Placeholder</span>
+            <h3>Figure 1: RL as an interdisciplinary case study</h3>
+            <div class="visual-frame placeholder">
+              <div class="placeholder-copy">
+                <strong>Replace with paper Figure 1</strong>
+                Use the reinforcement learning origin story visual showing contributions from behavioral psychology,
+                control theory, and animal learning psychology.
+              </div>
+            </div>
+            <p>This is a strong first image for social posts because it explains the paper’s thesis before the method.</p>
+          </article>
+
+          <article class="figure-card">
+            <span class="mini-label">Ready Now</span>
+            <h3>Figure 2: Idea-Catalyst pipeline</h3>
+            <div class="visual-frame">
+              <img src="./figures/framework_diagram.png" alt="Idea-Catalyst pipeline figure">
+            </div>
+            <p>Current stand-in for the core framework figure showing target-domain analysis, challenge abstraction, and source-domain synthesis.</p>
+          </article>
+
+          <article class="figure-card">
+            <span class="mini-label">Placeholder</span>
+            <h3>Figure 3: Source-domain distribution</h3>
+            <div class="visual-frame placeholder">
+              <div class="placeholder-copy">
+                <strong>Replace with paper Figure 3</strong>
+                Use the log-scale source-domain distribution comparison to show how Idea-Catalyst explores broadly
+                without collapsing into computer-science-only retrieval.
+              </div>
+            </div>
+            <p>This supports the claim that retrieval diversity alone is insufficient unless it is strategically filtered.</p>
+          </article>
+
+          <article class="figure-card">
+            <span class="mini-label">Placeholder</span>
+            <h3>Figure 4: Target-source inspiration flow</h3>
+            <div class="visual-frame placeholder">
+              <div class="placeholder-copy">
+                <strong>Replace with paper Figure 4</strong>
+                Use the flow diagram that maps AI subfields to source disciplines such as Psychology, Biology,
+                Linguistics, and Physics.
+              </div>
+            </div>
+            <p>This is likely the best visual for explaining the breadth and intuition of the discovered cross-domain links.</p>
+          </article>
+
+          <article class="figure-card">
+            <span class="mini-label">Placeholder</span>
+            <h3>Figure 5: Human-study interface</h3>
+            <div class="visual-frame placeholder">
+              <div class="placeholder-copy">
+                <strong>Replace with appendix Figure 5</strong>
+                Use the evaluation interface screenshot if you want a more concrete “this was tested with researchers”
+                visual for credibility.
+              </div>
+            </div>
+            <p>Useful for arXiv readers who want evidence that the evaluation was not purely abstract.</p>
+          </article>
+
+          <article class="figure-card">
+            <span class="mini-label">Optional</span>
+            <h3>Table-driven teaser card</h3>
+            <div class="visual-frame placeholder">
+              <div class="placeholder-copy">
+                <strong>Create a simple export from Tables 4 and 5</strong>
+                A compact graphic with “+21% novelty” and “+16% insightfulness” would work well as a preview tile.
+              </div>
+            </div>
+            <p>Not in the current paper as a standalone figure, but ideal for social and homepage previews.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="cite">
+        <h2>Citation</h2>
+        <p class="section-copy">
+          The submission metadata still uses the anonymous review template and placeholder venue fields. Update this
+          block once you have the camera-ready author list, venue, and DOI or arXiv identifier.
+        </p>
+        <div class="citation">
+Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration. KDD submission, 2026.
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
