@@ -65,6 +65,20 @@
       z-index: 10;
     }
 
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+    }
+
     .topbar strong,
     .hero h1,
     h2,
@@ -88,8 +102,7 @@
 
     .hero {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
+      gap: 24px;
       padding: 34px;
       margin-top: 18px;
       background: var(--paper);
@@ -123,35 +136,49 @@
       margin-bottom: 14px;
     }
 
+    .hero-intro {
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-authors {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .hero-authors strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .hero-main {
+      display: grid;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
     .hero h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.5rem, 6vw, 4.6rem);
-      line-height: 0.95;
+      margin: 0;
+      font-size: clamp(2.7rem, 2.75vw, 4.4rem);
+      line-height: 1.02;
       letter-spacing: -0.04em;
-      max-width: 10ch;
+      max-width: none;
+      width: 100%;
     }
 
     .hero p {
-      margin: 0 0 18px;
+      margin: 0;
       color: var(--muted);
       font-size: 1.03rem;
       max-width: 64ch;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 18px 0 24px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .hero-meta span {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(31, 36, 48, 0.05);
-      border: 1px solid rgba(31, 36, 48, 0.08);
     }
 
     .button-row {
@@ -194,7 +221,7 @@
       align-self: stretch;
       display: grid;
       gap: 14px;
-      padding: 20px;
+      padding: 22px;
       border-radius: 24px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(249, 238, 218, 0.92)),
@@ -203,7 +230,7 @@
     }
 
     .hero-card .mini-label,
-    .figure-card .mini-label {
+    .grid-card .mini-label {
       font-size: 0.76rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -212,8 +239,42 @@
 
     .hero-card h3 {
       margin: 0;
-      font-size: 1.45rem;
+      font-size: 1.25rem;
       line-height: 1.1;
+    }
+
+    .hero-card p {
+      font-size: 1rem;
+    }
+
+    .hero-card ul {
+      margin-top: 4px;
+    }
+
+    .hero-banner {
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(31, 36, 48, 0.08);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .hero-banner img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-overview {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1.05fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .hero-overview-copy {
+      display: grid;
+      gap: 14px;
+      align-content: start;
     }
 
     .hero-card ul {
@@ -246,7 +307,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
     }
 
@@ -271,7 +332,6 @@
 
     .stat p,
     .grid-card p,
-    .figure-card p,
     .quote-credit,
     .footer-note {
       margin: 0;
@@ -280,7 +340,6 @@
 
     .three-col,
     .two-col,
-    .figures,
     .questions {
       display: grid;
       gap: 16px;
@@ -295,7 +354,6 @@
     }
 
     .grid-card,
-    .figure-card,
     .quote-card {
       padding: 20px;
       border-radius: 24px;
@@ -304,7 +362,7 @@
     }
 
     .grid-card h3,
-    .figure-card h3 {
+    .quote-card h3 {
       margin: 0 0 10px;
       font-size: 1.22rem;
       line-height: 1.1;
@@ -338,21 +396,6 @@
       text-align: center;
     }
 
-    .visual-frame.placeholder {
-      position: relative;
-      isolation: isolate;
-    }
-
-    .visual-frame.placeholder::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(120deg, rgba(15, 118, 110, 0.14), transparent 40%),
-        linear-gradient(320deg, rgba(200, 92, 58, 0.16), transparent 42%);
-      z-index: -1;
-    }
-
     .visual-frame img {
       display: block;
       width: 100%;
@@ -360,10 +403,329 @@
       border-radius: 14px;
     }
 
-    .placeholder-copy strong {
+    .visual-frame object {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .figure-block {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+    }
+
+    .figure-block figcaption {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .overview-story {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 18px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .story-copy {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .story-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .story-point {
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+
+    .story-point strong {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-family: var(--serif);
+      font-size: 1.05rem;
+    }
+
+    .story-figure {
+      padding: 16px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(249, 238, 218, 0.95));
+      border: 1px solid var(--line);
+    }
+
+    .story-figure .visual-frame {
+      min-height: 0;
+      padding: 10px;
+    }
+
+    .story-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--accent-2);
+      background: rgba(200, 92, 58, 0.06);
+      color: var(--muted);
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    .pipeline-showcase {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .pipeline-steps {
+      display: grid;
+      gap: 14px;
+    }
+
+    .step-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      cursor: default;
+    }
+
+    .step-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .step-card p {
+      color: var(--muted);
+    }
+
+    .step-kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .step-detail {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(31, 36, 48, 0.12);
+      font-size: 0.94rem;
+      color: var(--muted);
+    }
+
+    .pipeline-visual {
+      position: relative;
+      padding: 20px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(247, 239, 226, 0.96));
+      overflow: hidden;
+      min-height: 560px;
+    }
+
+    .pipeline-visual::before {
+      content: "";
+      position: absolute;
+      inset: 26px;
+      border-radius: 24px;
+      border: 1px dashed rgba(15, 118, 110, 0.22);
+      pointer-events: none;
+    }
+
+    .pipeline-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .pipeline-head p {
+      margin: 0;
+      max-width: 44ch;
+      color: var(--muted);
+    }
+
+    .pipeline-caption {
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stage-stack {
+      position: relative;
+      min-height: 430px;
+    }
+
+    .stage-panel {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      gap: 16px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 220ms ease, transform 220ms ease;
+      pointer-events: none;
+    }
+
+    .stage-panel[data-step="1"] {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .pipeline-showcase:has(.step-card[data-step="1"]:hover) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="2"]:hover) .stage-panel[data-step="2"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="3"],
+    .pipeline-showcase:has(.step-card[data-step="1"]:focus-within) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="2"]:focus-within) .stage-panel[data-step="2"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="3"] {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .pipeline-showcase:has(.step-card[data-step="2"]:hover) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="2"],
+    .pipeline-showcase:has(.step-card[data-step="2"]:focus-within) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="1"],
+    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="2"] {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .stage-topline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stage-badge {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .stage-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      line-height: 1.05;
+    }
+
+    .flow-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .flow-box {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(31, 36, 48, 0.1);
+      background: rgba(255, 251, 245, 0.94);
+    }
+
+    .flow-box strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--serif);
+      font-size: 1rem;
+    }
+
+    .flow-arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .flow-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.08);
+      border: 1px solid rgba(15, 118, 110, 0.12);
+      font-size: 0.9rem;
       color: var(--ink);
+    }
+
+    .score-strip {
+      display: grid;
+      gap: 10px;
+    }
+
+    .score-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255, 251, 245, 0.94);
+      border: 1px solid rgba(31, 36, 48, 0.1);
+    }
+
+    .score-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.08);
+      overflow: hidden;
+    }
+
+    .score-fill {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .stage-footer {
+      margin-top: auto;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(31, 36, 48, 0.04);
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .method-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
     .questions {
@@ -413,11 +775,16 @@
     }
 
     @media (max-width: 960px) {
-      .hero,
       .stats,
       .three-col,
       .two-col,
       .questions {
+        grid-template-columns: 1fr;
+      }
+
+      .overview-story,
+      .pipeline-showcase,
+      .hero-overview {
         grid-template-columns: 1fr;
       }
 
@@ -432,65 +799,144 @@
       .topbar {
         position: static;
       }
+
+      .visual-frame object {
+        min-height: 320px;
+      }
+
+      .pipeline-visual {
+        min-height: auto;
+      }
+
+      .stage-stack,
+      .stage-panel {
+        position: static;
+        min-height: 0;
+      }
+
+      .stage-panel {
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+      }
+
+      .pipeline-showcase:has(.step-card:hover) .stage-panel {
+        opacity: 1;
+      }
+
+      .flow-row,
+      .score-item {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-arrow {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
   <div class="page-shell">
     <header class="topbar">
-      <strong>Idea-Catalyst</strong>
+      <strong class="brand">
+        <img src="./images/idea_catalyst/header_icon.png" alt="Idea-Catalyst icon">
+        <span>Idea-Catalyst</span>
+      </strong>
       <nav>
         <a href="#overview">Overview</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
-        <a href="#figures">Figures</a>
         <a href="#cite">Citation</a>
       </nav>
     </header>
 
     <main>
       <section class="hero" id="top">
-        <div>
-          <span class="eyebrow">Project Page</span>
-          <h1>Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration</h1>
-          <p>
-            This paper introduces <strong>Idea-Catalyst</strong>, a metacognition-driven framework for
-            helping humans and language models move beyond within-domain brainstorming. Instead of jumping
-            straight to solutions, the system decomposes a research goal, surfaces unresolved target-domain
-            challenges, reframes them into domain-agnostic problems, and searches other scientific fields
-            for concepts worth importing back.
-          </p>
-          <div class="hero-meta">
-            <span>14-page KDD submission</span>
-            <span>Focus: scientific discovery, creative reasoning, human-AI collaboration</span>
-            <span>Status: author metadata can be added later</span>
-          </div>
-          <div class="button-row">
-            <a class="button primary" href="./KDD_Submission.pdf">Read PDF</a>
-            <a class="button secondary" href="#results">See Results</a>
-            <a class="button secondary" href="#figures">Figure Placeholders</a>
+        <div class="hero-intro">
+          <span class="eyebrow">Boosting creativity in research</span>
+          <h1>Sparking Scientific Creativity via<br>LLM-Driven Interdisciplinary Inspiration</h1>
+          <div class="hero-authors">
+            <strong>Priyanka Kargupta, Shuhaib Mehri, Dilek Hakkani-Tur, Jiawei Han</strong>
+            <span>University of Illinois Urbana-Champaign</span>
           </div>
         </div>
 
-        <aside class="hero-card">
-          <span class="mini-label">Core Claim</span>
-          <h3>Better interdisciplinary ideas come from guided reasoning, not just broader retrieval.</h3>
-          <ul>
-            <li>Average novelty improves by 21% over the strongest retrieval baseline.</li>
-            <li>Average insightfulness improves by 16% while staying grounded in the target problem.</li>
-            <li>Human study participants found the framework effective for early-stage ideation.</li>
-          </ul>
-        </aside>
+        <div class="hero-main">
+          <div class="hero-copy">
+            <div class="button-row">
+              <a class="button primary" href="https://arxiv.org/abs/0000.00000">Read Paper</a>
+              <a class="button secondary" href="https://github.com/pkargupta/idea_catalyst">GitHub</a>
+              <a class="button secondary" href="https://huggingface.co/datasets/pkargupta/idea_catalyst">Dataset</a>
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <span class="mini-label">Overview</span>
+            <div class="hero-overview">
+              <div class="hero-banner">
+                <img src="./images/idea_catalyst/preview.png" alt="Idea-Catalyst preview graphic showing the project visual without title text">
+              </div>
+              <div class="hero-overview-copy">
+                <h3>
+                  This paper introduces Idea-Catalyst, a metacognition-driven framework for helping humans and
+                  language models move beyond within-domain brainstorming.
+                </h3>
+                <p>
+                  Rather than rushing to propose answers, the system first clarifies what a research problem is really
+                  asking, pinpoints where current approaches still fall short, and then looks to other scientific fields
+                  for ideas that could help close those gaps.
+                </p>
+                <ul>
+                  <li>Average novelty improves by 21% over the strongest retrieval baseline.</li>
+                  <li>Average insightfulness improves by 16% while staying grounded in the target problem.</li>
+                  <li>Human study participants found the framework effective for early-stage ideation.</li>
+                </ul>
+              </div>
+            </div>
+          </aside>
+        </div>
       </section>
 
       <section id="overview">
         <h2>Overview</h2>
-        <p class="section-copy">
-          Most AI-for-science systems optimize for fast solution generation. This paper argues that the more
-          important missing layer is the reasoning process behind creative, interdisciplinary ideation. Idea-Catalyst
-          is built for that earlier stage: helping researchers identify where a field is stuck, where adjacent ideas
-          might transfer, and which cross-domain signals are actually worth exploring.
-        </p>
+        <div class="overview-story">
+          <div class="story-copy">
+            <p class="section-copy" style="margin-bottom: 0;">
+              Most AI-for-science systems optimize for fast solution generation. This paper argues that the more
+              important missing layer is the reasoning process behind creative, interdisciplinary ideation. Idea-Catalyst
+              is built for that earlier stage: helping researchers identify where a field is stuck, where adjacent ideas
+              might transfer, and which cross-domain signals are actually worth exploring.
+            </p>
+            <div class="story-list">
+              <div class="story-point">
+                <strong>Start from the bottleneck, not the answer.</strong>
+                The key move is to identify an unresolved challenge inside the target field before searching elsewhere.
+              </div>
+              <div class="story-point">
+                <strong>Borrow the mechanism, not just the topic.</strong>
+                Interdisciplinary inspiration becomes useful when an outside domain solves the same abstract problem.
+              </div>
+              <div class="story-point">
+                <strong>Recontextualize and prioritize the strongest insights.</strong>
+                Extracted source-domain insights are translated back into the target field, turned into candidate idea fragments, and ranked by their potential to address important challenges while balancing novelty with relevance.
+              </div>
+            </div>
+          </div>
+
+          <figure class="story-figure figure-block">
+            <div class="visual-frame">
+              <img src="./images/idea_catalyst/intro_figure.png" alt="Figure showing reinforcement learning emerging from multiple disciplines">
+            </div>
+            <figcaption>
+              <strong>Figure 1.</strong> The motivating example is not just that RL touched many fields, but that each field contributed a different piece of the missing reasoning chain.
+            </figcaption>
+            <div class="story-note">
+              Behavioral psychology contributes the reward intuition, control theory contributes formal optimization,
+              and animal learning contributes mechanisms for delayed signals. Idea-Catalyst is designed to recreate
+              that style of disciplined cross-domain borrowing.
+            </div>
+          </figure>
+        </div>
 
         <div class="stats">
           <article class="stat">
@@ -504,14 +950,19 @@
             <p>Average relative improvement over Guided Dual on takeaway-level insightfulness.</p>
           </article>
           <article class="stat">
-            <div class="stat-value">6</div>
-            <div class="stat-label">PhD Participants</div>
-            <p>Human study participants from ML, NLP, and Electrical Engineering.</p>
+            <div class="stat-value">400</div>
+            <div class="stat-label">Research Problems</div>
+            <p>Dataset coverage spanning a broad set of target-domain research goals.</p>
           </article>
           <article class="stat">
-            <div class="stat-value">4.00/5</div>
-            <div class="stat-label">Research Questions</div>
-            <p>Average human-study rating for the generated research questions.</p>
+            <div class="stat-value">1,730</div>
+            <div class="stat-label">Interdisciplinary Insights</div>
+            <p>Extracted cross-domain takeaways used to seed new directions.</p>
+          </article>
+          <article class="stat">
+            <div class="stat-value">1,330</div>
+            <div class="stat-label">Interdisciplinary Ideas</div>
+            <p>Recontextualized idea candidates produced across the benchmark.</p>
           </article>
         </div>
       </section>
@@ -525,77 +976,169 @@
           and strategically exploring external domains with high impact potential.
         </p>
 
-        <div class="three-col">
-          <article class="grid-card">
-            <div class="step-number">1</div>
-            <h3>Analyze the target field</h3>
-            <p>
-              Start from an abstract research goal and derive concrete target-domain research questions,
-              unresolved tensions, and open conceptual gaps.
-            </p>
-          </article>
-          <article class="grid-card">
-            <div class="step-number">2</div>
-            <h3>Rewrite the challenge</h3>
-            <p>
-              Convert domain-specific obstacles into domain-agnostic conceptual problems so other disciplines
-              become searchable on the right abstraction level.
-            </p>
-          </article>
-          <article class="grid-card">
-            <div class="step-number">3</div>
-            <h3>Rank cross-domain inspiration</h3>
-            <p>
-              Retrieve source-domain ideas, synthesize takeaways, and rank domains by interdisciplinary
-              potential before integrating them back into the target problem.
-            </p>
-          </article>
+        <div class="pipeline-showcase">
+          <div class="pipeline-steps">
+            <article class="step-card" data-step="1" tabindex="0">
+              <span class="step-kicker">Hover to inspect stage 1</span>
+              <div class="step-number">1</div>
+              <h3>Analyze the target field</h3>
+              <p>
+                Start with a concrete research goal, then unpack it into target-domain questions, current wins,
+                and unresolved challenges.
+              </p>
+              <div class="step-detail">
+                This is where the system decides what the field still cannot explain or reliably do.
+              </div>
+            </article>
+            <article class="step-card" data-step="2" tabindex="0">
+              <span class="step-kicker">Hover to inspect stage 2</span>
+              <div class="step-number">2</div>
+              <h3>Rewrite the challenge</h3>
+              <p>
+                Translate a domain-specific obstacle into a portable conceptual challenge that other disciplines
+                might already know how to solve.
+              </p>
+              <div class="step-detail">
+                The abstraction step prevents retrieval from overfitting to surface vocabulary in the target domain.
+              </div>
+            </article>
+            <article class="step-card" data-step="3" tabindex="0">
+              <span class="step-kicker">Hover to inspect stage 3</span>
+              <div class="step-number">3</div>
+              <h3>Rank cross-domain inspiration</h3>
+              <p>
+                Retrieve candidate domains, extract the most relevant takeaways, and rank them by interdisciplinary
+                potential before integrating them back.
+              </p>
+              <div class="step-detail">
+                The goal is not maximum diversity by itself. The goal is conceptual leverage.
+              </div>
+            </article>
+          </div>
+
+          <div class="pipeline-visual">
+            <div class="pipeline-head">
+              <div>
+                <div class="pipeline-caption">Interactive pipeline walkthrough</div>
+                <h3 style="margin: 6px 0 8px;">A focused view of Figure 2</h3>
+              </div>
+              <p>Hover a step on the left to see what the system is producing, filtering, and carrying forward.</p>
+            </div>
+
+            <div class="stage-stack">
+              <div class="stage-panel" data-step="1">
+                <div class="stage-topline">
+                  <div class="stage-badge">1</div>
+                  <div class="stage-title">Map the target problem</div>
+                </div>
+                <div class="flow-grid">
+                  <div class="flow-row">
+                    <div class="flow-box">
+                      <strong>Input goal</strong>
+                      Effective and reliable human-AI collaboration.
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">
+                      <strong>Target-domain questions</strong>
+                      What helps models infer intent? What feedback loops reduce cognitive load?
+                    </div>
+                  </div>
+                  <div class="flow-box">
+                    <strong>Known wins vs. remaining gaps</strong>
+                    The system distinguishes what the field already solves from what remains brittle, underspecified, or non-scalable.
+                  </div>
+                  <div class="tag-row">
+                    <span class="flow-tag">real-time intent inference</span>
+                    <span class="flow-tag">dynamic user modeling</span>
+                    <span class="flow-tag">adaptive task prediction</span>
+                  </div>
+                </div>
+                <div class="stage-footer">
+                  Output of stage 1: a crisp set of research questions and the specific challenge that still blocks progress.
+                </div>
+              </div>
+
+              <div class="stage-panel" data-step="2">
+                <div class="stage-topline">
+                  <div class="stage-badge">2</div>
+                  <div class="stage-title">Abstract the bottleneck</div>
+                </div>
+                <div class="flow-grid">
+                  <div class="flow-row">
+                    <div class="flow-box">
+                      <strong>Domain-specific challenge</strong>
+                      Adapting in real time to collaborators with evolving goals and behaviors.
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-box">
+                      <strong>Conceptual challenge</strong>
+                      Dynamic balancing of persistence and flexibility under shifting signals.
+                    </div>
+                  </div>
+                  <div class="flow-box">
+                    <strong>Why this abstraction matters</strong>
+                    Now the search is no longer trapped inside AI wording. Psychology or sociology may have already studied the same underlying problem.
+                  </div>
+                  <div class="tag-row">
+                    <span class="flow-tag">adaptive goal shifting</span>
+                    <span class="flow-tag">social role adaptation</span>
+                    <span class="flow-tag">behavior under uncertainty</span>
+                  </div>
+                </div>
+                <div class="stage-footer">
+                  Output of stage 2: a searchable challenge description that preserves the bottleneck while dropping field-specific jargon.
+                </div>
+              </div>
+
+              <div class="stage-panel" data-step="3">
+                <div class="stage-topline">
+                  <div class="stage-badge">3</div>
+                  <div class="stage-title">Select the strongest outside insight</div>
+                </div>
+                <div class="score-strip">
+                  <div class="score-item">
+                    <strong>Psychology</strong>
+                    <div class="score-bar"><span class="score-fill" style="width: 86%;"></span></div>
+                    <span>0.86</span>
+                  </div>
+                  <div class="score-item">
+                    <strong>Sociology</strong>
+                    <div class="score-bar"><span class="score-fill" style="width: 64%;"></span></div>
+                    <span>0.64</span>
+                  </div>
+                  <div class="score-item">
+                    <strong>Control Theory</strong>
+                    <div class="score-bar"><span class="score-fill" style="width: 72%;"></span></div>
+                    <span>0.72</span>
+                  </div>
+                </div>
+                <div class="flow-box">
+                  <strong>Top takeaway</strong>
+                  Metacontrol and state-model ideas suggest balancing persistence on the current goal with flexibility to switch when evidence shifts.
+                </div>
+                <div class="flow-box">
+                  <strong>Integrated idea</strong>
+                  Design adaptive collaborators that explicitly model when to hold course, when to hand off, and when to revise the user model.
+                </div>
+                <div class="stage-footer">
+                  Output of stage 3: ranked source-domain takeaways that can be reintegrated into a concrete new research direction.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="two-col" style="margin-top: 16px;">
-          <article class="grid-card">
-            <span class="mini-label">Framework Figure</span>
-            <h3>Current local asset: framework diagram</h3>
-            <div class="visual-frame">
-              <img src="./figures/framework_diagram.png" alt="Framework diagram for Idea-Catalyst">
-            </div>
-            <p>
-              This uses the existing local diagram asset. If you export the final paper figure separately,
-              swap this image with the camera-ready version.
-            </p>
-          </article>
-          <article class="grid-card">
-            <span class="mini-label">Illustrative Example</span>
-            <h3>Why this matters for creative science</h3>
-            <p>
-              The paper uses reinforcement learning as a motivating example: a mature research area formed through
-              the convergence of behavioral psychology, control theory, and animal learning psychology rather than
-              a single-field breakthrough. Idea-Catalyst tries to recreate that kind of boundary-spanning reasoning
-              in a systematic way.
-            </p>
-            <div class="questions">
-              <div class="question-card">
-                <strong>What is the field trying to do?</strong>
-                Turn broad goals into analyzable research questions.
-              </div>
-              <div class="question-card">
-                <strong>Where is the field still stuck?</strong>
-                Surface unresolved challenges instead of generating generic ideas.
-              </div>
-              <div class="question-card">
-                <strong>Which outside domains are worth borrowing from?</strong>
-                Prioritize external concepts with real transfer potential.
-              </div>
-            </div>
-          </article>
-        </div>
+        <p class="method-note">
+          This walkthrough is a simplified reading aid for the paper's framework figure. It keeps the same logic as
+          Figure 2, but makes each stage legible without forcing the reader to parse the entire diagram at once.
+        </p>
       </section>
 
       <section id="results">
         <h2>Results</h2>
         <p class="section-copy">
           Across both takeaway-level and idea-level evaluations, the method consistently beats retrieval-only
-          baselines on the dimensions that matter for exploratory research: insightfulness and novelty. The paper’s
+          baselines on the dimensions that matter for exploratory research: insightfulness and novelty. The paper's
           interpretation is important here: more diverse retrieval alone is not enough. What matters is selecting
           source domains that offer meaningful conceptual leverage for the target problem.
         </p>
@@ -628,12 +1171,45 @@
         </div>
 
         <div class="two-col" style="margin-top: 16px;">
+          <article class="grid-card">
+            <span class="mini-label">Source Diversity</span>
+            <h3>Figure 3: Source-domain distribution</h3>
+            <figure class="figure-block">
+              <div class="visual-frame">
+                <object data="./images/idea_catalyst/source_domain_distribution.pdf#view=FitH" type="application/pdf">
+                  <a href="./images/idea_catalyst/source_domain_distribution.pdf">Open Figure 3 PDF</a>
+                </object>
+              </div>
+              <figcaption>
+                <strong>Figure 3.</strong> The source-domain distribution visual shows that Idea-Catalyst explores a
+                broader scientific neighborhood than retrieval-only baselines rather than collapsing into nearby CS literature.
+              </figcaption>
+            </figure>
+          </article>
+          <article class="grid-card">
+            <span class="mini-label">Inspiration Flow</span>
+            <h3>Figure 4: Target-to-source connections</h3>
+            <figure class="figure-block">
+              <div class="visual-frame">
+                <object data="./images/idea_catalyst/target_to_source_sankey.pdf#view=FitH" type="application/pdf">
+                  <a href="./images/idea_catalyst/target_to_source_sankey.pdf">Open Figure 4 PDF</a>
+                </object>
+              </div>
+              <figcaption>
+                <strong>Figure 4.</strong> The sankey diagram makes the discovered interdisciplinary links concrete by
+                mapping target AI areas to the outside disciplines that most often inspire them.
+              </figcaption>
+            </figure>
+          </article>
+        </div>
+
+        <div class="two-col" style="margin-top: 16px;">
           <article class="quote-card">
             <p class="quote">
               Effective interdisciplinary ideation depends not only on increasing domain diversity, but on critically
               selecting source domains which yield meaningful conceptual insights.
             </p>
-            <p class="quote-credit">Paraphrased from the paper’s analysis of source-domain selection and Figure 4.</p>
+            <p class="quote-credit">Paraphrased from the paper's analysis of source-domain selection and Figure 4.</p>
           </article>
           <article class="grid-card">
             <span class="mini-label">Human Study</span>
@@ -646,89 +1222,31 @@
             </p>
           </article>
         </div>
-      </section>
 
-      <section id="figures">
-        <h2>Figures To Showcase</h2>
-        <p class="section-copy">
-          The cards below are ready-to-use placeholders for social sharing and can be replaced with exported figure
-          crops from the paper. Each one points to a specific visual already present in the submission.
-        </p>
-
-        <div class="figures three-col">
-          <article class="figure-card">
-            <span class="mini-label">Placeholder</span>
-            <h3>Figure 1: RL as an interdisciplinary case study</h3>
-            <div class="visual-frame placeholder">
-              <div class="placeholder-copy">
-                <strong>Replace with paper Figure 1</strong>
-                Use the reinforcement learning origin story visual showing contributions from behavioral psychology,
-                control theory, and animal learning psychology.
+        <article class="grid-card" style="margin-top: 16px;">
+          <span class="mini-label">Evaluation Interface</span>
+          <h3>Appendix interface views used in the human study</h3>
+          <div class="three-col" style="margin-top: 16px;">
+            <figure class="figure-block">
+              <div class="visual-frame">
+                <img src="./images/idea_catalyst/interface_1.png" alt="Interface screenshot showing the research problem setup step">
               </div>
-            </div>
-            <p>This is a strong first image for social posts because it explains the paper’s thesis before the method.</p>
-          </article>
-
-          <article class="figure-card">
-            <span class="mini-label">Ready Now</span>
-            <h3>Figure 2: Idea-Catalyst pipeline</h3>
-            <div class="visual-frame">
-              <img src="./figures/framework_diagram.png" alt="Idea-Catalyst pipeline figure">
-            </div>
-            <p>Current stand-in for the core framework figure showing target-domain analysis, challenge abstraction, and source-domain synthesis.</p>
-          </article>
-
-          <article class="figure-card">
-            <span class="mini-label">Placeholder</span>
-            <h3>Figure 3: Source-domain distribution</h3>
-            <div class="visual-frame placeholder">
-              <div class="placeholder-copy">
-                <strong>Replace with paper Figure 3</strong>
-                Use the log-scale source-domain distribution comparison to show how Idea-Catalyst explores broadly
-                without collapsing into computer-science-only retrieval.
+              <figcaption>Problem setup and target-question framing.</figcaption>
+            </figure>
+            <figure class="figure-block">
+              <div class="visual-frame">
+                <img src="./images/idea_catalyst/interface_3.png" alt="Interface screenshot showing takeaway evaluation">
               </div>
-            </div>
-            <p>This supports the claim that retrieval diversity alone is insufficient unless it is strategically filtered.</p>
-          </article>
-
-          <article class="figure-card">
-            <span class="mini-label">Placeholder</span>
-            <h3>Figure 4: Target-source inspiration flow</h3>
-            <div class="visual-frame placeholder">
-              <div class="placeholder-copy">
-                <strong>Replace with paper Figure 4</strong>
-                Use the flow diagram that maps AI subfields to source disciplines such as Psychology, Biology,
-                Linguistics, and Physics.
+              <figcaption>Takeaway review and source-domain evaluation.</figcaption>
+            </figure>
+            <figure class="figure-block">
+              <div class="visual-frame">
+                <img src="./images/idea_catalyst/interface_4.png" alt="Interface screenshot showing final idea assessment">
               </div>
-            </div>
-            <p>This is likely the best visual for explaining the breadth and intuition of the discovered cross-domain links.</p>
-          </article>
-
-          <article class="figure-card">
-            <span class="mini-label">Placeholder</span>
-            <h3>Figure 5: Human-study interface</h3>
-            <div class="visual-frame placeholder">
-              <div class="placeholder-copy">
-                <strong>Replace with appendix Figure 5</strong>
-                Use the evaluation interface screenshot if you want a more concrete “this was tested with researchers”
-                visual for credibility.
-              </div>
-            </div>
-            <p>Useful for arXiv readers who want evidence that the evaluation was not purely abstract.</p>
-          </article>
-
-          <article class="figure-card">
-            <span class="mini-label">Optional</span>
-            <h3>Table-driven teaser card</h3>
-            <div class="visual-frame placeholder">
-              <div class="placeholder-copy">
-                <strong>Create a simple export from Tables 4 and 5</strong>
-                A compact graphic with “+21% novelty” and “+16% insightfulness” would work well as a preview tile.
-              </div>
-            </div>
-            <p>Not in the current paper as a standalone figure, but ideal for social and homepage previews.</p>
-          </article>
-        </div>
+              <figcaption>Final idea assessment with usefulness and novelty judgments.</figcaption>
+            </figure>
+          </div>
+        </article>
       </section>
 
       <section id="cite">
@@ -738,7 +1256,7 @@
           block once you have the camera-ready author list, venue, and DOI or arXiv identifier.
         </p>
         <div class="citation">
-Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration. KDD submission, 2026.
+Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration. arXiv preprint, 2026. https://arxiv.org/abs/0000.00000
         </div>
       </section>
     </main>
