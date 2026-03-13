@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration</title>
   <meta name="description" content="Project page for Idea-Catalyst, a metacognition-driven framework for interdisciplinary research ideation.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <style>
     :root {
       --bg: #f4efe5;
@@ -72,7 +73,6 @@
     }
 
     .brand img {
-      width: 38px;
       height: 38px;
       border-radius: 12px;
       object-fit: cover;
@@ -199,6 +199,27 @@
       text-decoration: none;
       font-weight: 600;
       transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+    }
+
+    .button .ai {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .button .emoji-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      flex: 0 0 18px;
+      font-size: 18px;
+      line-height: 1;
     }
 
     .button:hover {
@@ -561,11 +582,7 @@
     }
 
     .pipeline-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: start;
-      margin-bottom: 18px;
+      display: none;
     }
 
     .original-figure {
@@ -587,12 +604,13 @@
 
     .stage-stack {
       position: relative;
-      min-height: 430px;
+      min-height: 460px;
+      padding: 14px;
     }
 
     .stage-panel {
       position: absolute;
-      inset: 0;
+      inset: 14px;
       display: grid;
       gap: 16px;
       opacity: 0;
@@ -801,7 +819,7 @@
       font-size: clamp(1.4rem, 2.5vw, 2rem);
       line-height: 1.15;
       margin: 0 0 12px;
-      max-width: 20ch;
+      max-width: none;
     }
 
     .citation {
@@ -812,6 +830,38 @@
       border: 1px solid var(--line);
       background: rgba(255, 250, 241, 0.7);
       overflow-x: auto;
+    }
+
+    .citation-block {
+      position: relative;
+    }
+
+    .citation-copy {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(31, 36, 48, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink);
+      font: inherit;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    .citation code,
+    .citation pre {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.94rem;
+    }
+
+    .citation pre {
+      margin: 0;
+      white-space: pre;
+      line-height: 1.55;
+      tab-size: 2;
     }
 
     footer {
@@ -885,14 +935,14 @@
   <div class="page-shell">
     <header class="topbar">
       <strong class="brand">
-        <img src="./images/idea_catalyst/header_icon.png" alt="Idea-Catalyst icon">
+        <img src="./images/idea_catalyst/preview.png" alt="Idea-Catalyst icon">
         <span>Idea-Catalyst</span>
       </strong>
       <nav>
         <a href="#overview">Overview</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
-        <!--<a href="#cite">Citation</a>-->
+        <a href="#cite">Citation</a>
       </nav>
     </header>
 
@@ -910,9 +960,20 @@
         <div class="hero-main">
           <div class="hero-copy">
             <div class="button-row">
-              <a class="button primary" href="idea_catalyst_paper.pdf">Read Paper</a>
-              <a class="button secondary" href="https://github.com/pkargupta/idea_catalyst">GitHub</a>
-              <a class="button secondary" href="https://huggingface.co/datasets/pkargupta/idea_catalyst">Dataset</a>
+              <a class="button primary" href="https://arxiv.org/abs/2603.12226">
+                <i class="ai ai-arxiv" aria-hidden="true"></i>
+                <span>Read Paper</span>
+              </a>
+              <a class="button secondary" href="https://github.com/pkargupta/idea_catalyst">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                  <path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.23 1.84 1.23 1.08 1.82 2.82 1.3 3.5 1 .1-.77.42-1.3.76-1.6-2.66-.3-5.47-1.31-5.47-5.86 0-1.3.47-2.36 1.23-3.19-.12-.3-.53-1.54.12-3.2 0 0 1-.32 3.3 1.22a11.6 11.6 0 0 1 6 0c2.3-1.54 3.3-1.22 3.3-1.22.65 1.66.24 2.9.12 3.2.77.83 1.23 1.89 1.23 3.19 0 4.56-2.82 5.55-5.5 5.85.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z"></path>
+                </svg>
+                <span>Code</span>
+              </a>
+              <a class="button secondary" href="https://huggingface.co/datasets/pkargupta/idea_catalyst">
+                <span class="emoji-icon" aria-hidden="true">&#129303;</span>
+                <span>Dataset</span>
+              </a>
             </div>
           </div>
 
@@ -956,15 +1017,15 @@
             <div class="story-list">
               <div class="story-point">
                 <strong>Start from the bottleneck, not the answer.</strong>
-                The key move is to identify an unresolved challenge inside the target field before searching elsewhere.
+                The key move is to identify an unresolved challenge inside the target field before jumping to ideation.
               </div>
               <div class="story-point">
-                <strong>Borrow the mechanism, not just the topic.</strong>
-                Interdisciplinary inspiration becomes useful when an outside domain solves the same abstract problem.
+                <strong>Borrow the mechanism, not just the concept.</strong>
+                Interdisciplinary inspiration becomes useful when an outside domain tackles the same abstract problem.
               </div>
               <div class="story-point">
                 <strong>Recontextualize and prioritize the strongest insights.</strong>
-                Extracted source-domain insights are translated back into the target field, turned into candidate idea fragments, and ranked by their potential to address important challenges while balancing novelty with relevance.
+                Extracted source-domain insights are translated back into the target field, turned into candidate idea fragments, and ranked by their potential to complement the target field.
               </div>
             </div>
           </div>
@@ -1025,7 +1086,7 @@
         <div class="pipeline-showcase" data-active-step="1">
           <div class="pipeline-steps">
             <article class="step-card is-active" data-step="1" tabindex="0" role="button" aria-pressed="true">
-              <span class="step-kicker">Hover to inspect stage 1</span>
+              <span class="step-kicker">Hover to inspect stage</span>
               <div class="step-number">1</div>
               <h3>Analyze the target field</h3>
               <p>
@@ -1037,7 +1098,7 @@
               </div>
             </article>
             <article class="step-card" data-step="2" tabindex="0" role="button" aria-pressed="false">
-              <span class="step-kicker">Hover to inspect stage 2</span>
+              <span class="step-kicker">Hover to inspect stage</span>
               <div class="step-number">2</div>
               <h3>Rewrite the challenge</h3>
               <p>
@@ -1049,7 +1110,7 @@
               </div>
             </article>
             <article class="step-card" data-step="3" tabindex="0" role="button" aria-pressed="false">
-              <span class="step-kicker">Hover to inspect stage 3</span>
+              <span class="step-kicker">Hover to inspect stage</span>
               <div class="step-number">3</div>
               <h3>Rank cross-domain inspiration</h3>
               <p>
@@ -1099,7 +1160,7 @@
                   </div>
                 </div>
                 <div class="stage-footer">
-                  Output of stage 1: a crisp set of research questions and the specific challenge that still blocks progress.
+                  Output of Stage 1: a crisp set of research questions and the specific challenge that still blocks progress.
                 </div>
               </div>
 
@@ -1131,7 +1192,7 @@
                   </div>
                 </div>
                 <div class="stage-footer">
-                  Output of stage 2: a searchable challenge description that preserves the bottleneck while dropping field-specific jargon.
+                  Output of Stage 2: a searchable challenge description that preserves the bottleneck while dropping field-specific jargon.
                 </div>
               </div>
 
@@ -1166,17 +1227,12 @@
                   Maintain and update a latent, role-aware, and socially sensitive interaction state, learned through feedback and perspective-taking, so the system can adapt as collaborator goals and behavior shift.
                 </div>
                 <div class="stage-footer">
-                  Output of stage 3: ranked source-domain takeaways that can be reintegrated into a concrete new research direction.
+                  Output of Stage 3: ranked source-domain takeaways that can be reintegrated into a concrete new research direction.
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <p class="method-note">
-          This walkthrough is a simplified reading aid for the paper's framework figure. It keeps the same logic as
-          Figure 2, but makes each stage legible without forcing the reader to parse the entire diagram at once.
-        </p>
 
         <article class="grid-card original-figure">
           <h3>Figure 2: Idea-Catalyst pipeline</h3>
@@ -1196,8 +1252,8 @@
         <h2>Results</h2>
         <p class="section-copy full-width">
           Across both takeaway-level and idea-level evaluations, the method consistently beats retrieval-only
-          baselines on the dimensions that matter for exploratory research: insightfulness and novelty. The paper's
-          interpretation is important here: more diverse retrieval alone is not enough. What matters is selecting
+          baselines on the dimensions that matter for exploratory research: insightfulness and novelty. More diverse
+          retrieval alone is not enough. What matters is selecting
           source domains that offer meaningful conceptual leverage for the target problem.
         </p>
 
@@ -1231,7 +1287,7 @@
         <div class="two-col" style="margin-top: 16px;">
           <article class="grid-card">
             <span class="mini-label">Source Diversity</span>
-            <h3>Figure 3: Source-domain distribution</h3>
+            <h3>Figure 3: Without guidance, ideation stays close to home</h3>
             <figure class="figure-block">
               <div class="visual-frame">
                 <object data="./images/idea_catalyst/source_domain_distribution.pdf#view=FitH" type="application/pdf">
@@ -1239,14 +1295,17 @@
                 </object>
               </div>
               <figcaption>
-                <strong>Figure 3.</strong> The source-domain distribution visual shows that Idea-Catalyst explores a
-                broader scientific neighborhood than retrieval-only baselines rather than collapsing into nearby CS literature.
+                <strong>Figure 3.</strong> This figure compares the distribution of source domains retrieved by
+                Idea-Catalyst and the baseline retrieve-then-ideate methods. Without exploration guidance, LLMs tend
+                to stay within the same domain, or very nearby ones, even when asked for "interdisciplinary" ideas.
+                Idea-Catalyst pushes the search outward, then prioritizes the outside domains that best match the
+                unresolved challenge.
               </figcaption>
             </figure>
           </article>
           <article class="grid-card">
             <span class="mini-label">Inspiration Flow</span>
-            <h3>Figure 4: Target-to-source connections</h3>
+            <h3>Figure 4: The right source domain depends on the challenge</h3>
             <figure class="figure-block">
               <div class="visual-frame">
                 <object data="./images/idea_catalyst/target_to_source_sankey.pdf#view=FitH" type="application/pdf">
@@ -1254,8 +1313,9 @@
                 </object>
               </div>
               <figcaption>
-                <strong>Figure 4.</strong> The sankey diagram makes the discovered interdisciplinary links concrete by
-                mapping target AI areas to the outside disciplines that most often inspire them.
+                <strong>Figure 4.</strong> Different target problems draw on different outside disciplines. The point
+                is not to retrieve from as many domains as possible, but to identify which source domains offer the
+                most meaningful conceptual leverage for the specific target challenge.
               </figcaption>
             </figure>
           </article>
@@ -1264,10 +1324,9 @@
         <div class="two-col" style="margin-top: 16px;">
           <article class="quote-card">
             <p class="quote">
-              Effective interdisciplinary ideation depends not only on increasing domain diversity, but on critically
-              selecting source domains which yield meaningful conceptual insights.
+              Blindly choosing diverse domains is not enough. The strongest interdisciplinary ideas come from
+              choosing the outside domains that best match the unresolved challenge.
             </p>
-            <p class="quote-credit">Paraphrased from the paper's analysis of source-domain selection and Figure 4.</p>
           </article>
           <article class="grid-card">
             <span class="mini-label">Human Study</span>
@@ -1307,16 +1366,26 @@
         </article>
       </section>
 
-      <!--<section id="cite">
+      <section id="cite">
         <h2>Citation</h2>
         <p class="section-copy">
-          The submission metadata still uses the anonymous review template and placeholder venue fields. Update this
-          block once you have the camera-ready author list, venue, and DOI or arXiv identifier.
+          If you find our paper to be useful, please cite it!
         </p>
-        <div class="citation">
-Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration. arXiv preprint, 2026. https://arxiv.org/abs/0000.00000
+        <div class="citation-block">
+          <button class="citation-copy" id="citation-copy" type="button">Copy</button>
+          <div class="citation">
+<pre><code id="citation-text">@misc{kargupta2026sparkingscientificcreativityllmdriven,
+  title         = {Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration},
+  author        = {Priyanka Kargupta and Shuhaib Mehri and Dilek Hakkani-Tur and Jiawei Han},
+  year          = {2026},
+  eprint        = {2603.12226},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2603.12226}
+}</code></pre>
+          </div>
         </div>
-      </section>-->
+      </section>
     </main>
   </div>
 
@@ -1414,6 +1483,26 @@ Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdiscipli
           closeModal();
         }
       });
+
+      const citationCopyButton = document.getElementById('citation-copy');
+      const citationText = document.getElementById('citation-text');
+      if (citationCopyButton && citationText && navigator.clipboard) {
+        citationCopyButton.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(citationText.textContent);
+            const originalLabel = citationCopyButton.textContent;
+            citationCopyButton.textContent = 'Copied';
+            window.setTimeout(() => {
+              citationCopyButton.textContent = originalLabel;
+            }, 1200);
+          } catch (error) {
+            citationCopyButton.textContent = 'Copy failed';
+            window.setTimeout(() => {
+              citationCopyButton.textContent = 'Copy';
+            }, 1200);
+          }
+        });
+      }
     }());
   </script>
 </body>
