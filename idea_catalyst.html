@@ -305,6 +305,10 @@
       color: var(--muted);
     }
 
+    .section-copy.full-width {
+      max-width: none;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -467,6 +471,10 @@
       padding: 10px;
     }
 
+    .expandable-image {
+      cursor: zoom-in;
+    }
+
     .story-note {
       margin-top: 12px;
       padding: 12px 14px;
@@ -479,7 +487,6 @@
 
     .pipeline-showcase {
       display: grid;
-      grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
       gap: 18px;
       align-items: stretch;
       margin-top: 20px;
@@ -487,6 +494,7 @@
 
     .pipeline-steps {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
@@ -501,6 +509,13 @@
 
     .step-card:hover {
       transform: translateY(-2px);
+    }
+
+    .step-card.is-active {
+      border-color: rgba(15, 118, 110, 0.32);
+      box-shadow: 0 14px 28px rgba(15, 118, 110, 0.12);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(244, 250, 248, 0.96));
     }
 
     .step-card p {
@@ -553,6 +568,10 @@
       margin-bottom: 18px;
     }
 
+    .original-figure {
+      margin-top: 18px;
+    }
+
     .pipeline-head p {
       margin: 0;
       max-width: 44ch;
@@ -582,31 +601,10 @@
       pointer-events: none;
     }
 
-    .stage-panel[data-step="1"] {
+    .stage-panel.is-visible {
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
-    }
-
-    .pipeline-showcase:has(.step-card[data-step="1"]:hover) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="2"]:hover) .stage-panel[data-step="2"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="3"],
-    .pipeline-showcase:has(.step-card[data-step="1"]:focus-within) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="2"]:focus-within) .stage-panel[data-step="2"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="3"] {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .pipeline-showcase:has(.step-card[data-step="2"]:hover) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:hover) .stage-panel[data-step="2"],
-    .pipeline-showcase:has(.step-card[data-step="2"]:focus-within) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="1"],
-    .pipeline-showcase:has(.step-card[data-step="3"]:focus-within) .stage-panel[data-step="2"] {
-      opacity: 0;
-      pointer-events: none;
     }
 
     .stage-topline {
@@ -728,6 +726,55 @@
       font-size: 0.95rem;
     }
 
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(19, 24, 35, 0.72);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .image-modal.is-open {
+      display: flex;
+    }
+
+    .image-modal-dialog {
+      position: relative;
+      width: min(1100px, calc(100vw - 40px));
+      max-height: calc(100vh - 40px);
+      padding: 18px;
+      border-radius: 26px;
+      background: rgba(255, 251, 245, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 22px 60px rgba(10, 14, 24, 0.28);
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(31, 36, 48, 0.08);
+      color: var(--ink);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .image-modal img {
+      display: block;
+      width: 100%;
+      max-height: calc(100vh - 100px);
+      object-fit: contain;
+      border-radius: 18px;
+    }
+
     .questions {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       margin-top: 18px;
@@ -783,7 +830,6 @@
       }
 
       .overview-story,
-      .pipeline-showcase,
       .hero-overview {
         grid-template-columns: 1fr;
       }
@@ -820,12 +866,12 @@
         pointer-events: auto;
       }
 
-      .pipeline-showcase:has(.step-card:hover) .stage-panel {
-        opacity: 1;
-      }
-
       .flow-row,
       .score-item {
+        grid-template-columns: 1fr;
+      }
+
+      .pipeline-steps {
         grid-template-columns: 1fr;
       }
 
@@ -846,7 +892,7 @@
         <a href="#overview">Overview</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
-        <a href="#cite">Citation</a>
+        <!--<a href="#cite">Citation</a>-->
       </nav>
     </header>
 
@@ -864,7 +910,7 @@
         <div class="hero-main">
           <div class="hero-copy">
             <div class="button-row">
-              <a class="button primary" href="https://arxiv.org/abs/0000.00000">Read Paper</a>
+              <a class="button primary" href="idea_catalyst_paper.pdf">Read Paper</a>
               <a class="button secondary" href="https://github.com/pkargupta/idea_catalyst">GitHub</a>
               <a class="button secondary" href="https://huggingface.co/datasets/pkargupta/idea_catalyst">Dataset</a>
             </div>
@@ -874,7 +920,7 @@
             <span class="mini-label">Overview</span>
             <div class="hero-overview">
               <div class="hero-banner">
-                <img src="./images/idea_catalyst/preview.png" alt="Idea-Catalyst preview graphic showing the project visual without title text">
+                <img class="expandable-image" src="./images/idea_catalyst/preview.png" alt="Idea-Catalyst preview graphic showing the project visual without title text" data-modal-image="./images/idea_catalyst/preview.png" data-modal-alt="Idea-Catalyst preview graphic showing the project visual without title text">
               </div>
               <div class="hero-overview-copy">
                 <h3>
@@ -925,7 +971,7 @@
 
           <figure class="story-figure figure-block">
             <div class="visual-frame">
-              <img src="./images/idea_catalyst/intro_figure.png" alt="Figure showing reinforcement learning emerging from multiple disciplines">
+              <img class="expandable-image" src="./images/idea_catalyst/intro_figure.png" alt="Figure showing reinforcement learning emerging from multiple disciplines" data-modal-image="./images/idea_catalyst/intro_figure.png" data-modal-alt="Figure showing reinforcement learning emerging from multiple disciplines">
             </div>
             <figcaption>
               <strong>Figure 1.</strong> The motivating example is not just that RL touched many fields, but that each field contributed a different piece of the missing reasoning chain.
@@ -969,16 +1015,16 @@
 
       <section id="method">
         <h2>How Idea-Catalyst Works</h2>
-        <p class="section-copy">
+        <p class="section-copy full-width">
           The framework is designed around a simple principle: interdisciplinary inspiration should be earned
           through structured analysis, not guessed through unconstrained retrieval. It operationalizes three
           metacognitive behaviors from the paper: clarifying research goals, recognizing unresolved challenges,
           and strategically exploring external domains with high impact potential.
         </p>
 
-        <div class="pipeline-showcase">
+        <div class="pipeline-showcase" data-active-step="1">
           <div class="pipeline-steps">
-            <article class="step-card" data-step="1" tabindex="0">
+            <article class="step-card is-active" data-step="1" tabindex="0" role="button" aria-pressed="true">
               <span class="step-kicker">Hover to inspect stage 1</span>
               <div class="step-number">1</div>
               <h3>Analyze the target field</h3>
@@ -990,7 +1036,7 @@
                 This is where the system decides what the field still cannot explain or reliably do.
               </div>
             </article>
-            <article class="step-card" data-step="2" tabindex="0">
+            <article class="step-card" data-step="2" tabindex="0" role="button" aria-pressed="false">
               <span class="step-kicker">Hover to inspect stage 2</span>
               <div class="step-number">2</div>
               <h3>Rewrite the challenge</h3>
@@ -1002,7 +1048,7 @@
                 The abstraction step prevents retrieval from overfitting to surface vocabulary in the target domain.
               </div>
             </article>
-            <article class="step-card" data-step="3" tabindex="0">
+            <article class="step-card" data-step="3" tabindex="0" role="button" aria-pressed="false">
               <span class="step-kicker">Hover to inspect stage 3</span>
               <div class="step-number">3</div>
               <h3>Rank cross-domain inspiration</h3>
@@ -1020,13 +1066,12 @@
             <div class="pipeline-head">
               <div>
                 <div class="pipeline-caption">Interactive pipeline walkthrough</div>
-                <h3 style="margin: 6px 0 8px;">A focused view of Figure 2</h3>
               </div>
-              <p>Hover a step on the left to see what the system is producing, filtering, and carrying forward.</p>
+              <p>Hover a stage above to see what the system is producing, filtering, and carrying forward.</p>
             </div>
 
             <div class="stage-stack">
-              <div class="stage-panel" data-step="1">
+              <div class="stage-panel is-visible" data-step="1">
                 <div class="stage-topline">
                   <div class="stage-badge">1</div>
                   <div class="stage-title">Map the target problem</div>
@@ -1114,11 +1159,11 @@
                 </div>
                 <div class="flow-box">
                   <strong>Top takeaway</strong>
-                  Metacontrol and state-model ideas suggest balancing persistence on the current goal with flexibility to switch when evidence shifts.
+                  Psychology suggests balancing persistence and flexibility, while sociology highlights role-aware adaptation to evolving collaborators and interaction settings.
                 </div>
                 <div class="flow-box">
                   <strong>Integrated idea</strong>
-                  Design adaptive collaborators that explicitly model when to hold course, when to hand off, and when to revise the user model.
+                  Maintain and update a latent, role-aware, and socially sensitive interaction state, learned through feedback and perspective-taking, so the system can adapt as collaborator goals and behavior shift.
                 </div>
                 <div class="stage-footer">
                   Output of stage 3: ranked source-domain takeaways that can be reintegrated into a concrete new research direction.
@@ -1132,11 +1177,24 @@
           This walkthrough is a simplified reading aid for the paper's framework figure. It keeps the same logic as
           Figure 2, but makes each stage legible without forcing the reader to parse the entire diagram at once.
         </p>
+
+        <article class="grid-card original-figure">
+          <h3>Figure 2: Idea-Catalyst pipeline</h3>
+          <figure class="figure-block">
+            <div class="visual-frame">
+              <img class="expandable-image" src="./images/idea_catalyst/framework_diagram.png" alt="Framework diagram for Idea-Catalyst" data-modal-image="./images/idea_catalyst/framework_diagram.png" data-modal-alt="Framework diagram for Idea-Catalyst">
+            </div>
+            <figcaption>
+              <strong>Figure 2.</strong> Showing target-domain analysis,
+              challenge abstraction, source-domain retrieval, ranking, and reintegration into final research ideas.
+            </figcaption>
+          </figure>
+        </article>
       </section>
 
       <section id="results">
         <h2>Results</h2>
-        <p class="section-copy">
+        <p class="section-copy full-width">
           Across both takeaway-level and idea-level evaluations, the method consistently beats retrieval-only
           baselines on the dimensions that matter for exploratory research: insightfulness and novelty. The paper's
           interpretation is important here: more diverse retrieval alone is not enough. What matters is selecting
@@ -1229,19 +1287,19 @@
           <div class="three-col" style="margin-top: 16px;">
             <figure class="figure-block">
               <div class="visual-frame">
-                <img src="./images/idea_catalyst/interface_1.png" alt="Interface screenshot showing the research problem setup step">
+                <img class="expandable-image" src="./images/idea_catalyst/interface_1.png" alt="Interface screenshot showing the research problem setup step" data-modal-image="./images/idea_catalyst/interface_1.png" data-modal-alt="Interface screenshot showing the research problem setup step">
               </div>
               <figcaption>Problem setup and target-question framing.</figcaption>
             </figure>
             <figure class="figure-block">
               <div class="visual-frame">
-                <img src="./images/idea_catalyst/interface_3.png" alt="Interface screenshot showing takeaway evaluation">
+                <img class="expandable-image" src="./images/idea_catalyst/interface_3.png" alt="Interface screenshot showing takeaway evaluation" data-modal-image="./images/idea_catalyst/interface_3.png" data-modal-alt="Interface screenshot showing takeaway evaluation">
               </div>
               <figcaption>Takeaway review and source-domain evaluation.</figcaption>
             </figure>
             <figure class="figure-block">
               <div class="visual-frame">
-                <img src="./images/idea_catalyst/interface_4.png" alt="Interface screenshot showing final idea assessment">
+                <img class="expandable-image" src="./images/idea_catalyst/interface_4.png" alt="Interface screenshot showing final idea assessment" data-modal-image="./images/idea_catalyst/interface_4.png" data-modal-alt="Interface screenshot showing final idea assessment">
               </div>
               <figcaption>Final idea assessment with usefulness and novelty judgments.</figcaption>
             </figure>
@@ -1249,7 +1307,7 @@
         </article>
       </section>
 
-      <section id="cite">
+      <!--<section id="cite">
         <h2>Citation</h2>
         <p class="section-copy">
           The submission metadata still uses the anonymous review template and placeholder venue fields. Update this
@@ -1258,8 +1316,105 @@
         <div class="citation">
 Anonymous Author(s). Sparking Scientific Creativity via LLM-Driven Interdisciplinary Inspiration. arXiv preprint, 2026. https://arxiv.org/abs/0000.00000
         </div>
-      </section>
+      </section>-->
     </main>
   </div>
+
+  <div class="image-modal" id="image-modal" aria-hidden="true">
+    <div class="image-modal-dialog" role="dialog" aria-modal="true" aria-label="Expanded image view">
+      <button class="image-modal-close" id="image-modal-close" type="button" aria-label="Close expanded image">&times;</button>
+      <img id="image-modal-content" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const showcases = document.querySelectorAll('.pipeline-showcase');
+      showcases.forEach((showcase) => {
+        const cards = showcase.querySelectorAll('.step-card');
+        const panels = showcase.querySelectorAll('.stage-panel');
+        const getPinnedStep = () => showcase.dataset.activeStep || '1';
+        const showStep = (step) => {
+          panels.forEach((panel) => {
+            panel.classList.toggle('is-visible', panel.dataset.step === step);
+          });
+        };
+        const setActiveStep = (step) => {
+          showcase.dataset.activeStep = step;
+          cards.forEach((card) => {
+            const active = card.dataset.step === step;
+            card.classList.toggle('is-active', active);
+            card.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
+          showStep(step);
+        };
+
+        cards.forEach((card) => {
+          card.addEventListener('click', () => {
+            setActiveStep(card.dataset.step);
+          });
+
+          card.addEventListener('mouseenter', () => {
+            showStep(card.dataset.step);
+          });
+
+          card.addEventListener('mouseleave', () => {
+            showStep(getPinnedStep());
+          });
+
+          card.addEventListener('focus', () => {
+            showStep(card.dataset.step);
+          });
+
+          card.addEventListener('blur', () => {
+            showStep(getPinnedStep());
+          });
+
+          card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              setActiveStep(card.dataset.step);
+            }
+          });
+        });
+
+        showStep(getPinnedStep());
+      });
+
+      const modal = document.getElementById('image-modal');
+      const modalImage = document.getElementById('image-modal-content');
+      const closeButton = document.getElementById('image-modal-close');
+      const expandableImages = document.querySelectorAll('.expandable-image');
+
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        modalImage.setAttribute('src', '');
+        modalImage.setAttribute('alt', '');
+      };
+
+      expandableImages.forEach((image) => {
+        image.addEventListener('click', () => {
+          modalImage.setAttribute('src', image.dataset.modalImage || image.getAttribute('src'));
+          modalImage.setAttribute('alt', image.dataset.modalAlt || image.getAttribute('alt') || '');
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+        });
+      });
+
+      closeButton.addEventListener('click', closeModal);
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+    }());
+  </script>
 </body>
 </html>
