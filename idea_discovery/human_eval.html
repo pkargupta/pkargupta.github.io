@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idea Graph Viewer</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <nav class="mode-nav card">
+        <a class="mode-link is-active" href="./index.html">Research Pools</a>
+        <a class="mode-link" href="./trajectory.html">Trajectory Graphs</a>
+        <a class="mode-link" href="./conditional.html">Conditional Graphs</a>
+      </nav>
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Idea Graph Explorer</p>
+          <h1>Research Pool Graph Viewer</h1>
+          <p class="subtitle">
+            Load an output directory, choose a paper pool, then fetch a single paper graph on demand.
+          </p>
+        </div>
+        <div class="status-pill" id="load-status">Loading data...</div>
+      </header>
+
+      <section class="controls card">
+        <div class="control-group">
+            <label for="json-file-input">Upload graph JSON</label>
+            <input id="json-file-input" type="file" accept=".json" />
+        </div>
+          <input id="evaluator-id" type="hidden" />
+          <input id="assignment-type" type="hidden" />
+        <div class="control-group">
+            <label for="graph-text-mode">Graph node text</label>
+            <select id="graph-text-mode">
+            <option value="label">Default labels</option>
+            <option value="domain-agnostic">Domain-agnostic text</option>
+            </select>
+        </div>
+      </section>
+
+      <section class="summary-row">
+        <section class="pool-summary card" id="pool-summary">
+          <div class="summary-empty">Load a pool to view its summary.</div>
+        </section>
+
+        <section class="paper-summary card" id="paper-summary">
+          <div class="summary-empty">Select a paper to view its title and abstract.</div>
+        </section>
+      </section>
+
+      <main class="workspace">
+        <section class="graph-panel card">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Graph</p>
+              <h2 id="graph-title">No paper selected</h2>
+            </div>
+            <div class="graph-stats" id="graph-stats"></div>
+          </div>
+          <div id="graph-canvas"></div>
+          <div class="graph-legend">
+            <span class="legend-item"><span class="legend-dot problem"></span>Problem</span>
+            <span class="legend-item"><span class="legend-dot idea"></span>Idea</span>
+            <span class="legend-item"><span class="legend-dot method"></span>Method</span>
+            <span class="legend-item"><span class="legend-dot evidence"></span>Evidence</span>
+            <span class="legend-item"><span class="legend-dot background"></span>Background</span>
+          </div>
+        </section>
+
+        <aside class="details-panel card">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Inspector</p>
+              <h2>Node / Edge Details</h2>
+            </div>
+          </div>
+          <div id="details-content" class="details-empty">
+            Click a node or edge in the graph to inspect its details here.
+          </div>
+        </aside>
+      </main>
+       <section class="card" id="human-eval-panel">
+        <div class="panel-header">
+            <div>
+            <p class="eyebrow">Human Evaluation</p>
+            <h2>Subgraph-by-Subgraph Evaluation</h2>
+            <p class="subtitle">
+                Review each subgraph one at a time. After all subgraphs are complete, click Next to complete the overall evaluation.
+            </p>
+            </div>
+        </div>
+
+        <div id="eval-form">
+            <div class="summary-empty">Upload a paper graph JSON to begin evaluation.</div>
+        </div>
+        </section>
+    </div>
+    <script src="./human_eval.js"></script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conditional Graph Viewer</title>
+    <link rel="stylesheet" href="./transition-styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <nav class="mode-nav card">
+        <a class="mode-link" href="./index.html">Research Pools</a>
+        <a class="mode-link" href="./trajectory.html">Trajectory Graphs</a>
+        <a class="mode-link is-active" href="./conditional.html">Conditional Graphs</a>
+      </nav>
+
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Conditional Graph Explorer</p>
+          <h1>Conditional Proposal Transition Viewer</h1>
+          <p class="subtitle">
+            Load conditional graph outputs, choose a research question, and compare each revision
+            transition using the graph updated from the prior revision.
+          </p>
+        </div>
+        <div class="status-pill" id="load-status">Loading data...</div>
+      </header>
+
+      <section class="controls card">
+        <div class="control-group grow">
+          <label for="data-root-input">Output directory</label>
+          <div class="input-row">
+            <input id="data-root-input" placeholder="../traj_modeling/conditional_graphs/out/graphs" />
+            <button id="pick-directory-button" class="ghost-button" type="button">Choose folder</button>
+            <button id="load-data-button" type="button">Load data</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="question-select">Research question</label>
+          <select id="question-select"></select>
+        </div>
+
+        <div class="control-group">
+          <label for="transition-select">Graph transition</label>
+          <select id="transition-select"></select>
+        </div>
+
+        <div class="control-group">
+          <label for="graph-text-mode">Node text</label>
+          <select id="graph-text-mode">
+            <option value="label">Default labels</option>
+            <option value="domain-agnostic">Domain-agnostic text</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="summary-grid">
+        <section class="card summary-card" id="question-summary">
+          <div class="summary-empty">Load conditional graph outputs to view the research problem.</div>
+        </section>
+        <section class="card summary-card" id="transition-summary">
+          <div class="summary-empty">Select a transition to inspect its conditional update metadata.</div>
+        </section>
+      </section>
+
+      <section class="card diff-summary-card" id="conditional-diff-summary">
+        <div class="summary-empty">Select a transition to see which nodes were deleted, updated, or added.</div>
+      </section>
+
+      <main class="workspace">
+        <section class="graph-column">
+          <article class="graph-panel card" id="previous-graph-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Previous Graph</p>
+                <h2 id="previous-graph-title">No transition selected</h2>
+              </div>
+              <div class="panel-actions">
+                <div class="graph-stats" id="previous-graph-stats"></div>
+                <button class="ghost-button" id="previous-fullscreen-button" type="button">Full screen</button>
+              </div>
+            </div>
+            <div class="graph-canvas" id="previous-graph-canvas"></div>
+            <div class="graph-legend" id="previous-graph-legend"></div>
+            <details class="proposal-details">
+              <summary>Raw previous proposal</summary>
+              <pre id="previous-proposal-content" class="proposal-pre"></pre>
+            </details>
+          </article>
+
+          <article class="graph-panel card" id="current-graph-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Current Graph</p>
+                <h2 id="current-graph-title">No transition selected</h2>
+              </div>
+              <div class="panel-actions">
+                <div class="graph-stats" id="current-graph-stats"></div>
+                <button class="ghost-button" id="current-fullscreen-button" type="button">Full screen</button>
+              </div>
+            </div>
+            <div class="graph-canvas" id="current-graph-canvas"></div>
+            <div class="graph-legend" id="current-graph-legend"></div>
+            <details class="proposal-details">
+              <summary>Raw current proposal</summary>
+              <pre id="current-proposal-content" class="proposal-pre"></pre>
+            </details>
+          </article>
+        </section>
+
+        <aside class="details-panel card">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Inspector</p>
+              <h2>Node / Edge Details</h2>
+            </div>
+          </div>
+          <div id="details-content" class="details-empty">
+            Click a node or edge in either graph to inspect its details here.
+          </div>
+        </aside>
+      </main>
+    </div>
+    <script>
+      window.TRANSITION_VIEWER_CONFIG = {
+        defaultDataRoot: "../traj_modeling/conditional_graphs/out/graphs",
+        modeLabel: "Conditional Graph Explorer",
+        pageKind: "conditional",
+      };
+    </script>
+    <script src="./transition-viewer.js"></script>
+  </body>
+</html>
