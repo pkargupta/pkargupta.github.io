@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mihir & Priyanka | Wedding Weekend</title>
+  <meta name="description" content="Wedding weekend details, RSVP, schedule, and Mumbai travel guidance for Mihir and Priyanka.">
+  <style>
+    :root {
+      --maroon: #9f0712;
+      --maroon-dark: #65040b;
+      --gold: #c99532;
+      --rose: #f1b7aa;
+      --ink: #241815;
+      --muted: #705f59;
+      --paper: #fff9f4;
+      --cream: #fffdf9;
+      --line: rgba(159, 7, 18, 0.16);
+      --shadow: 0 22px 70px rgba(74, 22, 14, 0.18);
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .hero {
+      min-height: 92vh;
+      position: relative;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      color: white;
+      background: #341713;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(45, 13, 10, 0.82), rgba(45, 13, 10, 0.34) 46%, rgba(45, 13, 10, 0.2)),
+        linear-gradient(0deg, rgba(45, 13, 10, 0.88), rgba(45, 13, 10, 0.08) 52%),
+        url("landscape.png") center / cover;
+      transform: scale(1.02);
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px clamp(16px, 4vw, 48px);
+      background: rgba(255, 253, 249, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(159, 7, 18, 0.12);
+    }
+
+    .brand {
+      color: var(--maroon);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(20px, 2vw, 30px);
+      white-space: nowrap;
+      letter-spacing: 0;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      border: 0;
+      color: var(--maroon-dark);
+      background: transparent;
+      padding: 10px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      min-height: 42px;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--maroon);
+      color: white;
+      box-shadow: 0 10px 28px rgba(159, 7, 18, 0.22);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 128px 0 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.52fr);
+      gap: clamp(24px, 5vw, 72px);
+      align-items: end;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 13px;
+      color: #ffe8d1;
+      margin: 0 0 12px;
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(52px, 9vw, 118px);
+      font-weight: 500;
+      max-width: 850px;
+      text-wrap: balance;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+      margin: 22px 0 0;
+      color: #fff4e8;
+      font-size: clamp(18px, 2vw, 23px);
+    }
+
+    .quick-details {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 34px;
+      max-width: 760px;
+    }
+
+    .detail {
+      border: 1px solid rgba(255, 232, 209, 0.34);
+      background: rgba(255, 249, 244, 0.12);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 96px;
+    }
+
+    .detail strong {
+      display: block;
+      color: #fff7ed;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .detail span {
+      color: #ffe1c8;
+      font-size: 14px;
+    }
+
+    .invite-frame {
+      align-self: center;
+      justify-self: end;
+      width: min(310px, 100%);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 232, 209, 0.46);
+      background: #fff7f0;
+    }
+
+    .page {
+      background:
+        linear-gradient(180deg, #fff9f4 0, #fffdf9 580px),
+        radial-gradient(circle at top right, rgba(241, 183, 170, 0.34), transparent 320px);
+    }
+
+    .section {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: clamp(54px, 8vw, 92px) 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      color: var(--maroon);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(24px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .couple-art {
+      position: relative;
+      min-height: 430px;
+      display: grid;
+      place-items: end center;
+      overflow: hidden;
+    }
+
+    .couple-art::before {
+      content: "";
+      position: absolute;
+      inset: 60px 8% 0;
+      background: linear-gradient(180deg, rgba(241, 183, 170, 0.28), rgba(201, 149, 50, 0.12));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .couple-art img {
+      position: relative;
+      max-height: 420px;
+      object-fit: contain;
+    }
+
+    .welcome-copy {
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    .welcome-copy p {
+      margin: 0 0 18px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 12px 18px;
+      min-height: 46px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      background: var(--maroon);
+      color: white;
+      box-shadow: 0 14px 34px rgba(159, 7, 18, 0.22);
+    }
+
+    .button.secondary {
+      color: var(--maroon);
+      border-color: rgba(159, 7, 18, 0.28);
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .schedule {
+      display: grid;
+      gap: 18px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr) auto;
+      gap: 22px;
+      align-items: center;
+      padding: 22px;
+      background: white;
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--gold);
+      border-radius: 8px;
+      box-shadow: 0 16px 42px rgba(74, 22, 14, 0.07);
+    }
+
+    .event time {
+      color: var(--maroon);
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .event h3 {
+      color: var(--ink);
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .event p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .badge {
+      color: var(--maroon-dark);
+      background: #fff0e7;
+      border: 1px solid rgba(159, 7, 18, 0.14);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .travel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .travel-card,
+    .rsvp-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 16px 42px rgba(74, 22, 14, 0.07);
+    }
+
+    .travel-card {
+      padding: 22px;
+    }
+
+    .travel-card h3 {
+      color: var(--maroon);
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .travel-card p,
+    .travel-card li {
+      color: var(--muted);
+    }
+
+    .travel-card ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+
+    .rsvp-card {
+      padding: 24px;
+    }
+
+    .rsvp-card strong {
+      display: block;
+      color: var(--maroon);
+      margin-bottom: 6px;
+    }
+
+    .airtable-embed {
+      display: block;
+      width: 100%;
+      min-height: 760px;
+      margin-top: 18px;
+      border: 1px solid rgba(159, 7, 18, 0.18);
+      border-radius: 8px;
+      background: transparent;
+    }
+
+    .fine-print {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 12px 0 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 36px 16px 50px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      background: #fffdf9;
+    }
+
+    @media (max-width: 860px) {
+      .topbar {
+        align-items: start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hero-content,
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        padding-top: 150px;
+      }
+
+      .invite-frame {
+        justify-self: start;
+        width: min(260px, 82vw);
+      }
+
+      .quick-details,
+      .travel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        display: grid;
+      }
+
+      .event {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .badge {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand {
+        font-size: 22px;
+      }
+
+      .tab {
+        padding: 9px 11px;
+      }
+
+      .hero {
+        min-height: 96vh;
+      }
+
+      .hero-content {
+        width: min(100% - 24px, 1180px);
+        padding-bottom: 38px;
+      }
+
+      .quick-details {
+        grid-template-columns: 1fr;
+      }
+
+      .couple-art {
+        min-height: 330px;
+      }
+
+      .couple-art img {
+        max-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Mihir & Priyanka</div>
+    <nav class="tabs" aria-label="Wedding website sections">
+      <button class="tab" type="button" data-tab="home" aria-selected="true">Home</button>
+      <button class="tab" type="button" data-tab="rsvp" aria-selected="false">RSVP</button>
+      <button class="tab" type="button" data-tab="travel" aria-selected="false">Travel</button>
+      <button class="tab" type="button" data-tab="schedule" aria-selected="false">Schedule</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Wedding announcement">
+      <div class="hero-content">
+        <div>
+          <p class="eyebrow">December 18-19, 2026 · Mumbai, India</p>
+          <h1>Mihir & Priyanka</h1>
+          <p class="hero-copy">We cannot wait to celebrate with you at Sheetal Banquets in Malad West. RSVP, check the schedule, and plan your Mumbai stay below.</p>
+          <div class="quick-details" aria-label="Wedding weekend highlights">
+            <div class="detail">
+              <strong>Sangeet</strong>
+              <span>Friday, Dec 18 at 5:00 PM</span>
+            </div>
+            <div class="detail">
+              <strong>Wedding</strong>
+              <span>Saturday, Dec 19 at 9:00 AM</span>
+            </div>
+            <div class="detail">
+              <strong>Reception</strong>
+              <span>Saturday, Dec 19 at 6:00 PM</span>
+            </div>
+          </div>
+        </div>
+        <figure class="invite-frame" aria-label="Save the date invitation preview">
+          <img src="site_image.jpg" alt="Mihir and Priyanka save the date invitation">
+        </figure>
+      </div>
+    </section>
+
+    <div class="page">
+      <section class="section panel active" id="home" aria-labelledby="home-title">
+        <div class="intro-grid">
+          <div class="couple-art">
+            <img src="couple_transparent_glow.png" alt="Illustration of Mihir and Priyanka in wedding attire">
+          </div>
+          <div class="welcome-copy">
+            <p class="eyebrow">Welcome</p>
+            <h2 id="home-title">A Wedding Weekend In Mumbai</h2>
+            <p>Thank you for making the trip, crossing time zones, rearranging calendars, and showing up for us. We are planning a warm, joyful weekend with music, ceremony, food, and plenty of time together.</p>
+            <p>The main events are at Sheetal Banquets in Malad West. The travel tab has neighborhood guidance and airport notes, while the schedule tab keeps the weekend timing in one place.</p>
+            <div class="cta-row">
+              <button class="button primary" type="button" data-tab-link="rsvp">Send RSVP</button>
+              <button class="button secondary" type="button" data-tab-link="travel">Plan Travel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section panel" id="rsvp" aria-labelledby="rsvp-title">
+        <div class="section-header">
+          <h2 id="rsvp-title">RSVP</h2>
+          <p>Please let us know which events you can attend and whether you would like us to organize accommodation for December 18 and 19.</p>
+        </div>
+        <div class="rsvp-card">
+          <strong>RSVP for the Wedding by June 30th!</strong>
+          <p class="fine-print">We will be covering the accommodation for the 18th and 19th nights (either in the venue's hotel or Lemon Tree Premier, Malad; the latter is within 1-2 min walking distance). Meals provided: Dec 18 evening; Dec 19 breakfast, lunch, and dinner; Dec 20 breakfast (for guests we are booking accommodations for).</p>
+          <iframe class="airtable-embed" src="https://airtable.com/embed/appS1fhBsd3Xtdew6/pag2wSBzglcdkrNh6/form" frameborder="0" width="100%" height="760" title="Mihir and Priyanka wedding RSVP form"></iframe>
+        </div>
+      </section>
+
+      <section class="section panel" id="travel" aria-labelledby="travel-title">
+        <div class="section-header">
+          <h2 id="travel-title">Travel</h2>
+          <p>Helpful notes for guests flying into Mumbai and staying near Malad West, with a little room to explore the city.</p>
+        </div>
+        <div class="travel-grid">
+          <article class="travel-card">
+            <h3>Airport & Arrival</h3>
+            <p>Fly into Chhatrapati Shivaji Maharaj International Airport. Malad West is typically 45-90 minutes by car depending on traffic, so budget extra time around evening rush hour.</p>
+            <ul>
+              <li>Use prepaid airport taxis or rideshare apps.</li>
+              <li>Keep venue and hotel addresses saved offline.</li>
+              <li>Carry some INR for quick tips and small purchases.</li>
+            </ul>
+          </article>
+          <article class="travel-card">
+            <h3>Where To Stay</h3>
+            <p>Optional accommodation will be available for the nights of December 18 and 19. Guests may either arrange their own stay or ask us to organize accommodation.</p>
+            <ul>
+              <li>Hosted rooms may be at Sheetal Banquet's hotel or Lemon Tree Premier, Malad, Mumbai.</li>
+              <li>Roommates will be arranged within traveling parties, such as friends and family.</li>
+              <li>Self-booking guests may prefer Malad, Goregaon, Andheri, or Juhu.</li>
+            </ul>
+          </article>
+          <article class="travel-card">
+            <h3>Provided Meals</h3>
+            <p>Meals will be covered across the main wedding weekend so guests can focus on celebrating and resting between events.</p>
+            <ul>
+              <li>December 18: evening meal.</li>
+              <li>December 19: breakfast, lunch, and dinner.</li>
+              <li>December 20: breakfast.</li>
+            </ul>
+          </article>
+          <article class="travel-card">
+            <h3>Mumbai Moments</h3>
+            <p>When schedules allow, consider Gateway of India, Marine Drive, Bandra Fort, Colaba Causeway, Juhu Beach, and an early breakfast or chai stop.</p>
+            <ul>
+              <li>Dress light; December is warm and pleasant.</li>
+              <li>Leave early for cross-city plans.</li>
+              <li>Hydrate between celebrations.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="schedule" aria-labelledby="schedule-title">
+        <div class="section-header">
+          <h2 id="schedule-title">Schedule</h2>
+          <p>All listed events are at Sheetal Banquets, Malad West, Mumbai, India.</p>
+        </div>
+        <div class="schedule">
+          <article class="event">
+            <time datetime="2026-12-18T17:00">Fri, Dec 18 · 5:00 PM</time>
+            <div>
+              <h3>Sangeet</h3>
+              <p>An evening of music, dancing, performances, dinner, and a very high likelihood of happy chaos.</p>
+            </div>
+            <span class="badge">Festive Indian</span>
+          </article>
+          <article class="event">
+            <time datetime="2026-12-19T09:00">Sat, Dec 19 · 9:00 AM</time>
+            <div>
+              <h3>Wedding Ceremony</h3>
+              <p>Morning ceremony followed by blessings, photos, and lunch with family and friends.</p>
+            </div>
+            <span class="badge">Traditional</span>
+          </article>
+          <article class="event">
+            <time datetime="2026-12-19T18:00">Sat, Dec 19 · 6:00 PM</time>
+            <div>
+              <h3>Reception</h3>
+              <p>Dinner, toasts, photos, and one last celebration together before everyone heads home.</p>
+            </div>
+            <span class="badge">Formal / Cocktail</span>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    With love from Mihir & Priyanka · Sheetal Banquets, Malad West, Mumbai
+  </footer>
+
+  <script>
+    const tabs = [...document.querySelectorAll(".tab")];
+    const panels = [...document.querySelectorAll(".panel")];
+    const tabLinks = [...document.querySelectorAll("[data-tab-link]")];
+
+    function showTab(id) {
+      tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.tab === id)));
+      panels.forEach((panel) => panel.classList.toggle("active", panel.id === id));
+      history.replaceState(null, "", `#${id}`);
+      document.querySelector(".page").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    tabs.forEach((tab) => tab.addEventListener("click", () => showTab(tab.dataset.tab)));
+    tabLinks.forEach((button) => button.addEventListener("click", () => showTab(button.dataset.tabLink)));
+
+    const initialTab = location.hash.replace("#", "");
+    if (["home", "rsvp", "travel", "schedule"].includes(initialTab)) {
+      showTab(initialTab);
+    }
+  </script>
+</body>
+</html>
