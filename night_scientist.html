@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Night-Scientist: Reinforcing Agentic Creativity in Scientific Ideation with Night Science</title>
+<meta name="description" content="AI Night-Scientist: an agentic RL framework that teaches LLMs when and how to depart from predictable reasoning for creative scientific ideation.">
+<meta property="og:title" content="Reinforcing Agentic Creativity in Scientific Ideation with Night Science">
+<meta property="og:description" content="AI Night-Scientist: an agentic RL framework that teaches LLMs when and how to depart from predictable reasoning for creative scientific ideation.">
+<meta property="og:image" content="images/night_scientist/header.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500;1,600&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F6F4EF;color:#14213D;font-family:"Source Sans 3",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#12294A;text-decoration-color:#E8713A;text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{color:#B5501F}
+.ns-h2{font-family:Poppins,sans-serif;font-weight:600;font-size:34px;line-height:1.2;margin:0;letter-spacing:-0.01em}
+.ns-eyebrow{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#B5501F;margin:0}
+.ns-p{font-size:19px;line-height:1.65;margin:0}
+.ns-sc{font-variant:small-caps;letter-spacing:0.02em;font-weight:700}
+.ns-btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-family:Poppins,sans-serif;font-weight:500;font-size:16px;text-decoration:none;box-sizing:border-box}
+.ns-btn-primary{background:#F5B400;color:#12294A}
+.ns-btn-primary:hover{background:#FFC933;color:#12294A}
+.ns-btn-ghost{border:1.5px solid rgba(255,255,255,0.55);color:#FFFFFF}
+.ns-btn-ghost:hover{border-color:#F5B400;color:#F5B400}
+.ns-author{color:#FFFFFF;text-decoration:none;border-bottom:1.5px solid rgba(245,180,0,0.55);padding-bottom:1px}
+.ns-author:hover{color:#F5B400;border-bottom-color:#F5B400}
+.ns-fig{background:#FFFFFF;border:1px solid #E3DED3;border-radius:16px;padding:24px;box-sizing:border-box}
+.ns-fig img{display:block;width:100%;height:auto}
+.ns-cap{font-size:16px;line-height:1.55;color:#4A5468;margin:14px 0 0}
+.ns-tbl{width:100%;border-collapse:collapse;font-size:16px;background:#FFFFFF}
+.ns-tbl th{background:#12294A;color:#FFFFFF;font-family:Poppins,sans-serif;font-weight:500;font-size:14px;text-align:left;padding:12px 14px}
+.ns-tbl td{padding:10px 14px;border-top:1px solid #E6E1D6;vertical-align:top;line-height:1.45}
+.ns-tbl .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ns-tbl .grp{font-family:Poppins,sans-serif;font-size:13px;font-weight:600;color:#12294A;background:#EDF1F7;letter-spacing:0.04em;text-transform:uppercase}
+.ns-tbl .ours td{background:#FFF4DA}
+.ns-tbl .best{font-weight:700}
+.ns-tbl .second{text-decoration:underline;text-decoration-color:#E8713A;text-underline-offset:3px}
+.ns-dot{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:#FFFFFF;font-family:Poppins,sans-serif;font-size:14px;font-weight:600;flex-shrink:0}
+.ns-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.ns-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.ns-grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.ns-results{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.ns-scroll{overflow-x:auto;border-radius:14px;border:1px solid #E3DED3}
+.ns-good{color:#1B6B3A;font-weight:600}
+.ns-bad{color:#9E1B1B;font-weight:600}
+.ns-spectrum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;position:relative}
+.ns-spectrum::before{content:"";position:absolute;left:12%;right:12%;top:8px;height:3px;border-radius:2px;background:linear-gradient(90deg,#C3CBD8,#E8713A)}
+.ns-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;position:relative}
+.ns-step-dot{width:19px;height:19px;border-radius:50%;border:3px solid #FFFFFF;box-shadow:0 0 0 1px #D5D0C4}
+.ns-step-name{font-family:Poppins,sans-serif;font-weight:600;font-size:16px;color:#12294A}
+.ns-step-tag{font-size:15px;color:#4A5468;line-height:1.35}
+.ns-qcard{background:#FFFFFF;border:1px solid #E3DED3;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.ns-qcard-ours{border-color:#F0C890;box-shadow:inset 0 4px 0 #E8713A}
+.ns-qhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.ns-qname{margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;color:#12294A}
+.ns-qtag{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px}
+.ns-qgist{margin:0;font-size:17.5px;line-height:1.75;color:#24304A}
+.ns-qpc{font-size:16px;line-height:1.6;color:#3A4458;padding-top:12px;border-top:1px solid #EEE9DF}
+.ns-qtake{margin:0;font-size:16px;line-height:1.55;color:#12294A;background:#F3F5F9;border-radius:10px;padding:12px 14px}
+.ns-hl{position:relative;border-radius:4px;padding:1px 3px;cursor:help;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.ns-hl-good{background:#DDF1E3;color:#14532D;border-bottom:2px dashed #1B6B3A}
+.ns-hl-bad{background:#FBE3E3;color:#7F1D1D;border-bottom:2px dashed #9E1B1B}
+.ns-hl:focus{outline:2px solid #E8713A;outline-offset:2px}
+.ns-tip{position:absolute;left:0;top:calc(100% + 10px);z-index:20;width:300px;max-width:78vw;background:#13294B;color:#FFFFFF;font-size:15px;line-height:1.5;font-weight:400;font-style:normal;padding:12px 14px;border-radius:10px;box-shadow:0 10px 28px rgba(12,27,51,0.28);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .15s ease,transform .15s ease;pointer-events:none;text-align:left}
+.ns-tip-label{display:block;font-family:Poppins,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px}
+.ns-hl:hover .ns-tip,.ns-hl:focus .ns-tip{opacity:1;visibility:visible;transform:translateY(0)}
+@media (max-width:760px){.ns-spectrum{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}.ns-spectrum::before{display:none}}
+.ns-abs summary{list-style:none}
+.ns-abs summary::-webkit-details-marker{display:none}
+.ns-abs summary:hover .ns-abs-hint{color:#12294A}
+.ns-abs summary:focus-visible{outline:2px solid #E8713A;outline-offset:2px;border-radius:16px}
+.ns-chev{transition:transform .2s ease}
+.ns-abs[open] .ns-chev{transform:rotate(180deg)}
+.ns-abs-hide{display:none}
+.ns-abs[open] .ns-abs-hide{display:inline}
+.ns-abs[open] .ns-abs-show{display:none}
+.ns-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.ns-stat{background:#FFFFFF;border:1px solid #E3DED3;border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;gap:4px}
+.ns-stat-num{font-family:Poppins,sans-serif;font-size:38px;font-weight:600;color:#12294A;line-height:1.05}
+.ns-stat-label{font-size:17px;font-weight:600;color:#14213D;line-height:1.35;margin-top:4px}
+.ns-stat-sub{font-size:14px;color:#5A6478;line-height:1.35}
+.ns-level{background:#FFFFFF;border:1px solid #E3DED3;border-top:5px solid #12294A;border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:8px}
+.ns-level-tag{margin:0;font-family:Poppins,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.12em}
+.ns-level-name{margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:20px;color:#12294A}
+.ns-level-text{margin:0;font-size:17px;line-height:1.55;color:#3A4458}
+.ns-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.ns-steps li{display:flex;gap:12px;align-items:flex-start;font-size:17px;line-height:1.5;color:#3A4458}
+.ns-steps strong{color:#12294A}
+.ns-step-n{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:#13294B;color:#F5B400;font-family:Poppins,sans-serif;font-weight:600;font-size:15px;display:inline-flex;align-items:center;justify-content:center}
+.ns-act{display:inline-flex;align-items:center;gap:10px;font-weight:700}
+.ns-split{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:start}
+.ns-tbl-title{margin:0;font-family:Poppins,sans-serif;font-weight:600;font-size:19px;color:#12294A}
+.ns-notes{display:flex;flex-direction:column;gap:14px;padding-top:38px}
+.ns-how{background:#EDF1F7;border-radius:12px;padding:14px 16px;font-size:16px;line-height:1.55;color:#24304A}
+.ns-how strong{color:#12294A}
+.ns-read{display:flex;gap:12px;align-items:flex-start}
+.ns-read p{margin:0;font-size:17px;line-height:1.55;color:#24304A}
+.ns-read-plain p{color:#3A4458}
+.ns-badge{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#E8713A;color:#FFFFFF;font-family:Poppins,sans-serif;font-size:13px;font-weight:600;line-height:1;margin-right:8px;vertical-align:-5px}
+.ns-read .ns-badge{margin-right:0;margin-top:1px}
+.ns-tbl .ns-mark td{background:#FDF1E8}
+.ns-note{margin:0;font-size:14px;color:#5A6478}
+.ns-defs{background:#FFFFFF;border:1px solid #E3DED3;border-radius:14px;padding:18px 20px}
+.ns-defs-title{margin:0 0 10px;font-family:Poppins,sans-serif;font-weight:600;font-size:16px;color:#B5501F}
+.ns-defs dl{margin:0;display:flex;flex-direction:column;gap:8px}
+.ns-defs dl div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;font-size:16px;line-height:1.45}
+.ns-defs dt{font-weight:700;color:#12294A}
+.ns-defs dd{margin:0;color:#3A4458}
+@media (max-width:980px){.ns-split{grid-template-columns:minmax(0,1fr);gap:18px}.ns-notes{padding-top:0}.ns-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.ns-steps{grid-template-columns:minmax(0,1fr)}.ns-defs dl div{grid-template-columns:minmax(0,1fr);gap:2px}.ns-stat-num{font-size:32px}}
+@media (max-width:980px){.ns-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.ns-grid3,.ns-grid2,.ns-results{grid-template-columns:minmax(0,1fr)}.ns-h2{font-size:28px}}
+@media (max-width:560px){.ns-grid4{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ns-stat{padding:14px}.ns-stat-num{font-size:26px !important}.ns-stat-label{font-size:15px}.ns-p{font-size:17px}.ns-fig{padding:14px}.ns-pad{padding-left:16px !important;padding-right:16px !important}}
+</style>
+<style>html{scroll-behavior:smooth}body{overflow-x:hidden}</style>
+</head>
+<body>
+<div style="width: 100%; overflow-x: clip; display: flex; flex-direction: column; background: #F6F4EF">
+
+<!-- ============ HERO ============ -->
+<header style="background: #13294B; display: flex; flex-direction: column">
+<h1 class="ns-sr">Reinforcing Agentic Creativity in Scientific Ideation with Night Science</h1>
+<img src="images/night_scientist/header.jpg" alt="Reinforcing Agentic Creativity in Scientific Ideation with Night Science: an AI agent brainstorming with researchers at night" style="display: block; width: 100%; height: auto; max-height: 320px; object-fit: cover; object-position: 50% 100%">
+<div class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 26px 40px 30px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; column-gap: 22px; row-gap: 8px; font-size: 18px; color: #FFFFFF">
+<span><a class="ns-author" href="https://pkargupta.github.io/">Priyanka Kargupta</a><sup style="color: #F5B400">1,*</sup></span>
+<span><a class="ns-author" href="https://scholar.google.com/citations?user=wb2Ll78AAAAJ&amp;hl=en">Silviu Cucerzan</a><sup style="color: #F5B400">2</sup></span>
+<span><a class="ns-author" href="https://www.microsoft.com/en-us/research/people/shmahaj/">Shweti Mahajan</a><sup style="color: #F5B400">3</sup></span>
+<span><a class="ns-author" href="https://www.linkedin.com/in/allen-herring-9941454">Allen Herring</a><sup style="color: #F5B400">2</sup></span>
+<span><a class="ns-author" href="https://hanj.cs.illinois.edu/">Jiawei Han</a><sup style="color: #F5B400">1</sup></span>
+<span><a class="ns-author" href="http://www.ryenwhite.com/">Ryen W. White</a><sup style="color: #F5B400">2</sup></span>
+<span><a class="ns-author" href="https://www.microsoft.com/en-us/research/people/sjauhar/">Sujay Kumar Jauhar</a><sup style="color: #F5B400">2,*</sup></span>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; column-gap: 24px; row-gap: 8px; font-size: 15px; color: #C9D3E3">
+<span style="display: inline-flex; align-items: center; gap: 8px"><img src="images/night_scientist/uiuc.png" alt="" style="height: 22px; width: auto"><span><sup style="color: #F5B400">1</sup>University of Illinois Urbana-Champaign</span></span>
+<span style="display: inline-flex; align-items: center; gap: 8px"><img src="images/night_scientist/microsoft.png" alt="" style="height: 17px; width: 17px"><span><sup style="color: #F5B400">2</sup>Microsoft</span></span>
+<span><sup style="color: #F5B400">3</sup>Microsoft Research</span>
+<span style="color: #AEBBD0"><sup>*</sup>Corresponding: <a href="mailto:pk36@illinois.edu" style="color: #FFFFFF">pk36@illinois.edu</a>, <a href="mailto:sjauhar@microsoft.com" style="color: #FFFFFF">sjauhar@microsoft.com</a></span>
+</div>
+<nav aria-label="Paper links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 4px">
+<a class="ns-btn ns-btn-primary" href="#">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path><path d="M8 13h8M8 17h6"></path></svg>
+<span>Paper [ARXIV LINK]</span></a>
+<a class="ns-btn ns-btn-ghost" href="https://github.com/microsoft/ai_night_scientist">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 18l6-6-6-6"></path><path d="M8 6l-6 6 6 6"></path></svg>
+<span>Code</span></a>
+<a class="ns-btn ns-btn-ghost" href="#bibtex">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M9 8h6M9 12h6M9 16h4"></path></svg>
+<span>BibTeX</span></a>
+</nav>
+</div>
+<div style="height: 6px; background: #E8713A"></div>
+</header>
+
+<!-- ============ MOTIVATION ============ -->
+<section class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 52px 40px 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="ns-eyebrow">Why night science?</p>
+<h2 class="ns-h2">LLMs are good at day science. Discovery also needs night science.</h2>
+<p class="ns-p">LLMs tend to give the most likely answer. That works for math and code, but it makes their research ideas predictable and similar to each other.</p>
+</div>
+<div class="ns-grid2">
+<div style="background: #FFFFFF; border: 1px solid #E3DED3; border-radius: 16px; padding: 24px; display: flex; gap: 16px; align-items: flex-start">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B5501F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px">Day science</h3>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #3A4458">Careful and step by step. Form a hypothesis, test it, refine it.</p>
+</div>
+</div>
+<div style="background: #13294B; border-radius: 16px; padding: 24px; display: flex; gap: 16px; align-items: flex-start">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F5B400" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px; color: #FFFFFF">Night science</h3>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; color: #D5DDEA">Loose and exploratory. Borrow ideas from distant fields, follow hunches, question what everyone assumes. Penicillin came from a moment like this.</p>
+</div>
+</div>
+</div>
+<p class="ns-p" style="font-family: Poppins, sans-serif; font-size: 22px; line-height: 1.45; font-weight: 500; max-width: 900px"><span class="ns-sc" style="color: #B5501F">AI Night-Scientist</span> uses reinforcement learning to teach a model <em>when</em> and <em>how</em> to step away from the obvious answer.</p>
+<div class="ns-grid4">
+<div class="ns-stat"><div class="ns-stat-num">+27.8%</div><div class="ns-stat-label">more kinds of research ideas</div><div class="ns-stat-sub">paradigm diversity, relative to the base model</div></div>
+<div class="ns-stat"><div class="ns-stat-num">+14.9%</div><div class="ns-stat-label">more kinds of contributions</div><div class="ns-stat-sub">contribution-type diversity, relative to the base model</div></div>
+<div class="ns-stat"><div class="ns-stat-num" style="color: #B5501F">+32.0 <span style="font-size: 20px">pts</span></div><div class="ns-stat-label">predicted citation impact</div><div class="ns-stat-sub">win rate, relative to the base model</div></div>
+<div class="ns-stat"><div class="ns-stat-num" style="color: #B5501F">+66.2 <span style="font-size: 20px">pts</span></div><div class="ns-stat-label">originality</div><div class="ns-stat-sub">win rate, relative to the base model</div></div>
+</div>
+</section>
+
+<!-- ============ ABSTRACT ============ -->
+<section id="abstract" class="ns-pad" style="max-width: 880px; width: 100%; margin: 0 auto; padding: 40px 40px 16px; box-sizing: border-box; display: flex; flex-direction: column">
+<details class="ns-abs" style="background: #FFFFFF; border: 1px solid #E3DED3; border-radius: 16px">
+<summary style="min-height: 60px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer">
+<span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px; color: #12294A">Abstract</span>
+<span class="ns-abs-hint" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: #B5501F; font-weight: 600"><span class="ns-abs-show">Show</span><span class="ns-abs-hide">Hide</span><svg class="ns-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+</summary>
+<p class="ns-p" style="padding: 0 24px 24px">Large language models (LLMs) excel at structured, verifiable tasks, but their low-entropy bias can produce homogeneous and predictable outputs, limiting their utility for open-ended scientific ideation. Effective discovery, however, spans a broader creative spectrum: from structured <em>day science</em> to loosely structured, serendipitous <em>night science</em> that reaches ideas beyond those typically considered. We introduce <span class="ns-sc">AI Night-Scientist</span>, an agentic framework that uses reinforcement learning to teach models <em>when</em> and <em>how</em> to depart from predictable reasoning. Grounded in cognitive science, we model creativity along three axes: <em>action</em> (what to do and how creatively), <em>process</em> (when to explore versus exploit), and <em>outcome</em> (the novelty and usefulness of the resulting idea). We use these axes to train models with GRPO, exposing them to varying degrees and forms of creativity throughout training. This produces substantially more diverse scientific proposals, expanding the range of research directions by 27.8% and contribution types by 14.9% over the base model. It also improves predicted citation impact by up to 32.0 percentage points and originality by 66.2 points. These gains cannot be reproduced by simply increasing decoding temperature; instead, we find that semantic guidance specifying <em>what kind</em> of creativity to pursue is critical. Overall, our results suggest that <strong>creativity is a learnable, multi-level ability that can be shaped to help researchers reach ideas beyond those typically explored by LLMs</strong>.</p>
+</details>
+</section>
+
+<!-- ============ THREE LEVELS ============ -->
+<section id="method" class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 40px 40px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<p class="ns-eyebrow">The idea</p>
+<h2 class="ns-h2">Creativity happens at three levels</h2>
+<p class="ns-p">Most systems only judge whether the final idea is creative. We also let the model decide how creative to be at each step, and when.</p>
+</div>
+<div class="ns-grid3">
+<div class="ns-level" style="border-top-color: #C00000">
+<p class="ns-level-tag" style="color: #9E1B1B">HOW</p>
+<h3 class="ns-level-name">Action-level</h3>
+<p class="ns-level-text">How creative is each step? A literature search can stay close to the topic or reach into a distant field.</p>
+</div>
+<div class="ns-level" style="border-top-color: #1B6B3A">
+<p class="ns-level-tag" style="color: #1B6B3A">WHEN</p>
+<h3 class="ns-level-name">Process-level</h3>
+<p class="ns-level-text">When should the model take a creative leap, and when should it build on what it already has?</p>
+</div>
+<div class="ns-level" style="border-top-color: #0070C0">
+<p class="ns-level-tag" style="color: #005A9C">WHAT</p>
+<h3 class="ns-level-name">Outcome-level</h3>
+<p class="ns-level-text">Is the final idea new, while still relevant and doable?</p>
+</div>
+</div>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/teaser_figure.png" alt="Example for a research problem on education with LLMs: action-level creativity compares a low-creativity and a high-creativity search; process-level creativity shows a sequence of search, write, debate, spark and write steps; outcome-level creativity scores the final idea on relevance, novelty and feasibility.">
+<figcaption class="ns-cap">An example for the problem “advancing education using LLMs.” Each level can be dialed from low to high creativity.</figcaption>
+</figure>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 40px 40px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<h2 class="ns-h2">How it works</h2>
+<p class="ns-p">Given a research problem, the model writes a research proposal in up to five steps.</p>
+</div>
+<ol class="ns-steps">
+<li><span class="ns-step-n">1</span><div><strong>Choose.</strong> Pick an action and a creativity level, like “search, level 4.”</div></li>
+<li><span class="ns-step-n">2</span><div><strong>Act.</strong> Search arXiv, simulate a debate, or challenge an assumption. Add the result to the notes.</div></li>
+<li><span class="ns-step-n">3</span><div><strong>Repeat, then write.</strong> Keep going until the model stops or hits five steps, then hand in the proposal.</div></li>
+<li><span class="ns-step-n">4</span><div><strong>Learn</strong> (training only). Score the proposal. RL (GRPO) makes the choices behind good proposals more likely.</div></li>
+</ol>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/framework.png" alt="Framework diagram: the agent selects an action and creativity level from an action pool, or gets a random swap with probability Pr_swap; it executes the action, such as an arXiv search, updates its context history, and repeats until it chooses to complete; the final proposal is split into atomic ideas and scored for precedence, feasibility and relevance.">
+<figcaption class="ns-cap">The full loop. Sometimes the chosen action is swapped for a random one (the dice), so the model tries things it would not pick on its own.</figcaption>
+</figure>
+</section>
+
+<!-- ============ ACTION SPACE ============ -->
+<section class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 40px 40px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<h2 class="ns-h2">Five actions, each with a creativity dial</h2>
+<p class="ns-p">Search, Debate and Spark have levels from 1 to 5 (levels 1, 3 and 5 shown). Write and Stop have no dial, so the final proposal reflects the exploring that came before it.</p>
+</div>
+<div class="ns-scroll">
+<table class="ns-tbl" style="min-width: 760px">
+<thead><tr><th style="width: 130px">Action</th><th style="width: 290px">What it does</th><th>Level 1 → 3 → 5</th></tr></thead>
+<tbody>
+<tr>
+<td><span class="ns-act"><span class="ns-dot" style="background: #0070C0">a</span>Search</span></td>
+<td>Write a query and retrieve arXiv papers.</td>
+<td><em>1:</em> the proposal’s own topic<br><em>3:</em> nearby topics<br><em>5:</em> distant fields and bigger questions</td>
+</tr>
+<tr>
+<td><span class="ns-act"><span class="ns-dot" style="background: #FFC000; color: #12294A">b</span>Debate</span></td>
+<td>Pick who is in the room and what to discuss, then simulate the conversation.</td>
+<td><em>1:</em> a colleague in the same area<br><em>3:</em> someone in the same field, different topic<br><em>5:</em> experts from distant fields, open-ended</td>
+</tr>
+<tr>
+<td><span class="ns-act"><span class="ns-dot" style="background: #00873D">c</span>Spark</span></td>
+<td>Find an assumption (<em>Bit</em>), flip it (<em>Flip</em>), and turn the flip into a new idea (<em>Spark</em>).</td>
+<td><em>1:</em> a small assumption in the proposal<br><em>3:</em> an assumption behind the approach<br><em>5:</em> a big assumption the whole field makes</td>
+</tr>
+<tr>
+<td><span class="ns-act"><span class="ns-dot" style="background: #D2601F">d</span>Write</span></td>
+<td>Turn everything so far into a proposal draft.</td>
+<td>No dial</td>
+</tr>
+<tr>
+<td><span class="ns-act"><span class="ns-dot" style="background: #C00000">e</span>Stop</span></td>
+<td>Finish and hand in the proposal.</td>
+<td>No dial</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============ REWARDS ============ -->
+<section class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 40px 40px 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 820px">
+<h2 class="ns-h2">How proposals are scored</h2>
+<p class="ns-p">We split each proposal into its individual ideas and grade each one, checking against related papers.</p>
+</div>
+<div class="ns-grid3">
+<div class="ns-level" style="border-top-color: #12294A">
+<h3 class="ns-level-name">Precedence</h3>
+<p class="ns-level-text">Is it different from existing work?</p>
+</div>
+<div class="ns-level" style="border-top-color: #12294A">
+<h3 class="ns-level-name">Feasibility</h3>
+<p class="ns-level-text">Is the plan specific and believable? We keep the weakest plan’s score, since one bad step can sink a project.</p>
+</div>
+<div class="ns-level" style="border-top-color: #12294A">
+<h3 class="ns-level-name">Relevance</h3>
+<p class="ns-level-text">Does it address the original problem?</p>
+</div>
+</div>
+<div style="background: #13294B; color: #FFFFFF; border-radius: 16px; padding: 20px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 40px; font-size: 18px">
+<span>Outcome reward&#160;&#160;<strong style="font-family: Poppins, sans-serif; color: #F5B400">R<sub>out</sub> = ⅓ (Precedence + Feasibility + Relevance)</strong></span>
+</div>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3A4458; max-width: 860px"><strong style="color: #12294A">We also tried rewarding the steps themselves</strong>, scoring each one on whether it explored something new and whether it fed into the final proposal (R<sub>po</sub>). Our main models use the outcome reward only; the results below compare the two.</p>
+</section>
+
+<!-- ============ RESULTS ============ -->
+<section id="results" style="background: #FFFFFF; border-top: 1px solid #E3DED3; border-bottom: 1px solid #E3DED3">
+<div class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 64px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 860px">
+<p class="ns-eyebrow">Results</p>
+<h2 class="ns-h2">Better and more varied proposals</h2>
+<p class="ns-p">We train Qwen3-8B and Qwen3-14B on 4,414 NSF grant titles in computer science, engineering and math, and test on 491 more. The model only sees the title.</p>
+</div>
+
+<!-- (a) quality -->
+<div class="ns-split">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="ns-tbl-title">(a) Proposal quality</h3>
+<div class="ns-scroll">
+<table class="ns-tbl" style="min-width: 420px">
+<thead><tr><th>Method</th><th class="num" style="text-align: right">Citation %</th><th class="num" style="text-align: right">Originality %</th></tr></thead>
+<tbody>
+<tr><td class="grp" colspan="3"><span class="ns-badge">1</span>Zero-shot</td></tr>
+<tr><td>Llama-3.1-8B</td><td class="num">1.61</td><td class="num">1.15</td></tr>
+<tr><td>Qwen3-8B</td><td class="num">0.46</td><td class="num">2.53</td></tr>
+<tr><td>Qwen3-14B</td><td class="num">1.15</td><td class="num">2.53</td></tr>
+<tr><td>GPT-4.1</td><td class="num">3.90</td><td class="num">12.18</td></tr>
+<tr><td class="grp" colspan="3">Temperature</td></tr>
+<tr><td>Qwen3-8B + Temp</td><td class="num">2.07</td><td class="num">0.69</td></tr>
+<tr><td>GPT-4.1 + Temp</td><td class="num">2.99</td><td class="num">9.89</td></tr>
+<tr><td class="grp" colspan="3">ReAct</td></tr>
+<tr><td>Qwen3-8B + ReAct</td><td class="num">2.33</td><td class="num">6.54</td></tr>
+<tr><td>GPT-4.1 + ReAct</td><td class="num">3.45</td><td class="num">10.11</td></tr>
+<tr><td class="grp" colspan="3">Creativity levels, no RL</td></tr>
+<tr><td>Llama-3.1-8B + Creative</td><td class="num">1.10</td><td class="num">6.52</td></tr>
+<tr><td>Qwen3-8B + Creative</td><td class="num">1.89</td><td class="num">4.25</td></tr>
+<tr><td>Qwen3-14B + Creative</td><td class="num">0.71</td><td class="num">4.76</td></tr>
+<tr><td>GPT-4.1 + Creative</td><td class="num">3.00</td><td class="num">14.02</td></tr>
+<tr><td class="grp" colspan="3">With RL</td></tr>
+<tr><td>GIANTS-4B</td><td class="num">1.62</td><td class="num">35.57</td></tr>
+<tr class="ns-mark"><td><span class="ns-badge">2</span>Qwen3-8B + Temp</td><td class="num">11.52</td><td class="num">19.82</td></tr>
+<tr class="ns-mark"><td><span class="ns-badge">3</span>Qwen3-8B + ReAct</td><td class="num">24.94</td><td class="num">46.60</td></tr>
+<tr class="ns-mark"><td><span class="ns-badge">3</span>Qwen3-8B + Search + Write</td><td class="num">24.47</td><td class="num">33.33</td></tr>
+<tr><td class="grp" colspan="3"><span class="ns-badge">4</span>Ours</td></tr>
+<tr class="ours"><td><span class="ns-sc">AI Night-Scientist-8B</span></td><td class="num"><span class="second">29.89</span></td><td class="num"><span class="second">56.32</span></td></tr>
+<tr class="ours"><td><span class="ns-sc">AI Night-Scientist-14B</span></td><td class="num best">33.18</td><td class="num best">68.68</td></tr>
+</tbody>
+</table>
+</div>
+<p class="ns-note">Best in <strong>bold</strong>, second-best <span class="second">underlined</span>.</p>
+</div>
+<div class="ns-notes">
+<div class="ns-how"><strong>How to read it.</strong> Each proposal goes head to head with a reference proposal rebuilt from the real, funded NSF project. The numbers are how often ours wins. <em>Citation:</em> SciJudge predicts which would be cited more. <em>Originality:</em> GPT-5.1 picks the more original one, given the closest existing paper.</div>
+<div class="ns-read"><span class="ns-badge">1</span><p>Without training, models almost never beat the funded project. Going from 8B to 14B barely helps.</p></div>
+<div class="ns-read"><span class="ns-badge">2</span><p>More randomness is not more creativity. With the same RL training, raising the temperature reaches 19.8% originality. Ours reaches 56.3%.</p></div>
+<div class="ns-read"><span class="ns-badge">3</span><p>RL with the same actions (ReAct) helps a lot, and creativity levels add about 10 more originality points. Removing Spark and Debate (Search + Write) costs 23 points.</p></div>
+<div class="ns-read"><span class="ns-badge">4</span><p>Our 14B model is best on both, gaining 32.0 citation points and 66.2 originality points over Qwen3-14B. Scale helps once the model has learned when to be creative.</p></div>
+<div class="ns-read ns-read-plain"><p>Head to head, Night-8B also beats GPT-4.1 on 75% of citation and 87% of originality comparisons.</p></div>
+</div>
+</div>
+
+<!-- (b) diversity -->
+<div class="ns-split">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="ns-tbl-title">(b) How varied are the ideas?</h3>
+<div class="ns-scroll">
+<table class="ns-tbl" style="min-width: 360px">
+<thead><tr><th>Method</th><th class="num" style="text-align: right">Paradigm</th><th class="num" style="text-align: right">Contribution</th></tr></thead>
+<tbody>
+<tr class="ns-mark"><td><span class="ns-badge">1</span>Qwen3-8B zero-shot</td><td class="num">0.738</td><td class="num">0.370</td></tr>
+<tr><td>GPT-4.1 zero-shot</td><td class="num">0.785</td><td class="num best">0.439</td></tr>
+<tr><td>GIANTS-4B (RL)</td><td class="num">0.773</td><td class="num">0.347</td></tr>
+<tr><td>Qwen3 + Temp (RL)</td><td class="num">0.792</td><td class="num">0.339</td></tr>
+<tr><td>Qwen3 + ReAct (RL)</td><td class="num"><span class="second">0.888</span></td><td class="num">0.390</td></tr>
+<tr><td>Night-8B (R<sub>po</sub>)</td><td class="num">0.853</td><td class="num">0.362</td></tr>
+<tr class="ns-mark"><td><span class="ns-badge">2</span>&#160;&#160;+ no random swaps</td><td class="num">0.844</td><td class="num">0.358</td></tr>
+<tr class="ours"><td><span class="ns-badge">1</span><strong>Night-8B (R<sub>out</sub>)</strong></td><td class="num best">0.943</td><td class="num"><span class="second">0.425</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="ns-notes">
+<div class="ns-how"><strong>How to read it.</strong> We label every proposal in two ways (defined below) and measure how evenly the proposals spread across seven categories. 1.0 means perfectly even; low means most proposals fall in one bucket.</div>
+<div class="ns-read"><span class="ns-badge">1</span><p>Night-8B covers the widest range of research moves: 0.943, up from 0.738 for its base model, which is about 1.4 more categories.</p></div>
+<div class="ns-read"><span class="ns-badge">2</span><p>The random swaps early in training matter. Without them, paradigm diversity drops from 0.943 to 0.844, and contribution diversity from 0.425 to 0.358.</p></div>
+</div>
+</div>
+
+<!-- diversity explainer -->
+<div style="background: #F6F4EF; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 860px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 22px; color: #12294A">What do the two labels mean?</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3A4458">A <strong>paradigm</strong> is the research move behind the idea: how it turns an opening into a direction (categories from <a href="https://arxiv.org/abs/2607.01233">Chen et al., 2026</a>). A <strong>contribution type</strong> is what the work delivers in the end. They are independent: a new tool (artifact) could come from making a method more robust or from unifying two fields.</p>
+</div>
+<div class="ns-grid2" style="gap: 22px">
+<div class="ns-defs">
+<p class="ns-defs-title">Paradigm: the research move</p>
+<dl>
+<div><dt>Synthesis</dt><dd>Bridge or unify separate fields, theories or methods.</dd></div>
+<div><dt>Scope extension</dt><dd>Make prior work hold under weaker assumptions or new settings.</dd></div>
+<div><dt>Robustification</dt><dd>Reduce failures, bias, risk or unreliability.</dd></div>
+<div><dt>Formal derivation</dt><dd>A formal model, theorem, bound or taxonomy.</dd></div>
+<div><dt>Empirical mapping</dt><dd>Systematic measurement, benchmarks or comparisons.</dd></div>
+<div><dt>Artifact / system</dt><dd>Build a concrete system, tool or prototype.</dd></div>
+<div><dt>Optimization / search</dt><dd>Tune, search or scale to find a better solution.</dd></div>
+</dl>
+</div>
+<div class="ns-defs">
+<p class="ns-defs-title">Contribution type: what it delivers</p>
+<dl>
+<div><dt>Empirical</dt><dd>New findings from data.</dd></div>
+<div><dt>Artifact</dt><dd>A new system, tool, process or intervention.</dd></div>
+<div><dt>Method</dt><dd>A reusable way of doing research or practice.</dd></div>
+<div><dt>Theory</dt><dd>Reusable concepts, models, principles or frameworks.</dd></div>
+<div><dt>Benchmark / data</dt><dd>A reusable dataset or evaluation resource.</dd></div>
+<div><dt>Survey</dt><dd>A synthesis of existing work.</dd></div>
+<div><dt>Opinion</dt><dd>An evidence-based position meant to shift the discussion.</dd></div>
+</dl>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div class="ns-read ns-read-plain"><p><strong>Paradigms.</strong> The base model mostly proposes “build a system”: 44% artifact. Night-8B (O) cuts that to 14% and spreads out into synthesis (21%), scope extension (19%) and formal work (13%).</p></div>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/paradigms.png" alt="Stacked bar chart of primary research-idea paradigms for each method. Qwen-8B zero-shot is 44% artifact; Night-8B (O) is 21% synthesis, 19% scope extension, 9% robustification, 13% formal, 7% empirical mapping, 14% artifact and 16% optimization.">
+</figure>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div class="ns-read ns-read-plain"><p><strong>Contribution types.</strong> Every model leans toward artifacts, but Night-8B (O) leans least: 42% versus 68% for the base model, with more methods (25%) and theory (33%).</p></div>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/contributions.png" alt="Stacked bar chart of primary contribution types for each method. Qwen-8B zero-shot is 68% artifact, 15% method, 13% theory; Night-8B (O) is 42% artifact, 25% method and 33% theory.">
+</figure>
+</div>
+<p class="ns-note">(O) is the outcome-only reward, R<sub>out</sub>. (PO) adds the process reward, R<sub>po</sub>.</p>
+</div>
+
+<!-- (c) reward ablation -->
+<div class="ns-split">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="ns-tbl-title">(c) Rewarding the final proposal vs. every step</h3>
+<div class="ns-scroll">
+<table class="ns-tbl" style="min-width: 360px">
+<thead><tr><th>Method</th><th>Reward</th><th class="num" style="text-align: right">Citation %</th><th class="num" style="text-align: right">Originality %</th></tr></thead>
+<tbody>
+<tr class="ns-mark"><td><span class="ns-badge">2</span>ReAct</td><td>R<sub>out</sub></td><td class="num">24.94</td><td class="num">46.60</td></tr>
+<tr class="ns-mark"><td></td><td>R<sub>po</sub></td><td class="num">2.10</td><td class="num">6.54</td></tr>
+<tr class="ns-mark"><td><span class="ns-badge">2</span>Temp.</td><td>R<sub>out</sub></td><td class="num">11.52</td><td class="num">19.82</td></tr>
+<tr class="ns-mark"><td></td><td>R<sub>po</sub></td><td class="num">10.35</td><td class="num">13.33</td></tr>
+<tr class="ours"><td><span class="ns-badge">1</span>Night-8B</td><td>R<sub>out</sub></td><td class="num best">29.89</td><td class="num"><span class="second">56.32</span></td></tr>
+<tr class="ours"><td></td><td>R<sub>po</sub></td><td class="num"><span class="second">26.20</span></td><td class="num best">61.61</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="ns-notes">
+<div class="ns-how"><strong>How to read it.</strong> R<sub>out</sub> scores only the final proposal. R<sub>po</sub> also scores each step along the way.</div>
+<div class="ns-read"><span class="ns-badge">1</span><p>Scoring every step makes Night-8B more original (+5.3 points), but less likely to be cited (−3.7) and less varied.</p></div>
+<div class="ns-read"><span class="ns-badge">2</span><p>For ReAct and temperature, the same reward hurts both scores. It only pays off when actions have meaningful creativity levels, so we use R<sub>out</sub> by default.</p></div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- ============ QUALITATIVE ============ -->
+<section id="qualitative" class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 56px 40px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 26px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 860px">
+<p class="ns-eyebrow">Qualitative example</p>
+<h2 class="ns-h2">Same problem, four proposals</h2>
+<p class="ns-p">Every method got the same NSF topic: <em>“Using AI to Transform Online Video Lectures into Effective and Inclusive Agent-Based Presentations.”</em> The baselines polish how lectures are delivered. Our models rethink what a lecture is.</p>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E3DED3; border-radius: 16px; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px">
+<div class="ns-spectrum">
+<div class="ns-step"><span class="ns-step-dot" style="background: #9AA6BA"></span><span class="ns-step-name">GPT-4.1</span><span class="ns-step-tag">Recombines existing tools</span></div>
+<div class="ns-step"><span class="ns-step-dot" style="background: #6C84AC"></span><span class="ns-step-name">ReAct</span><span class="ns-step-tag">Adds one new artifact</span></div>
+<div class="ns-step"><span class="ns-step-dot" style="background: #E8713A"></span><span class="ns-step-name">Night-8B (R<sub>out</sub>)</span><span class="ns-step-tag">Reframes the interaction</span></div>
+<div class="ns-step"><span class="ns-step-dot" style="background: #B5501F"></span><span class="ns-step-name">Night-8B (R<sub>po</sub>)</span><span class="ns-step-tag">Most novel, least grounded</span></div>
+</div>
+<div style="display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: #5A6478; font-weight: 600">
+<span>← Adapts existing lecture delivery</span>
+<span style="text-align: right">Changes the learning interaction itself →</span>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; font-size: 16px; color: #3A4458">
+<span style="display: inline-flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12294A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6"></path><path d="M13 10.5V9a2 2 0 0 1 4 0v3"></path><path d="M17 11a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-1a7 7 0 0 1-5.6-2.8L4 14.5a2 2 0 0 1 3-2.6l2 2"></path></svg><span><strong style="color: #12294A">Hover or tap a highlighted phrase</strong> for an explanation.</span></span>
+<span style="display: inline-flex; align-items: center; gap: 8px"><span class="ns-hl ns-hl-good" style="padding: 0 8px">green</span> novel or well-specified</span>
+<span style="display: inline-flex; align-items: center; gap: 8px"><span class="ns-hl ns-hl-bad" style="padding: 0 8px">red</span> incremental, vague or questionable</span>
+</div>
+
+<div class="ns-grid2">
+
+<article class="ns-qcard">
+<div class="ns-qhead"><h3 class="ns-qname">GPT-4.1</h3><span class="ns-qtag" style="background: #EEF0F4; color: #3A4458">Zero-shot</span></div>
+<p class="ns-qgist">Segment video lectures into topics, then <span class="ns-hl ns-hl-bad" tabindex="0">have conversational agents re-present each segment<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #FCA5A5">Why red: incremental</span>Lecture segmentation and chatbot tutors both already exist. Putting them together is integration work, not a new mechanism.</span></span>, with <span class="ns-hl ns-hl-bad" tabindex="0">adaptive pacing, clarifications and multimodal delivery<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #FCA5A5">Why red: a feature list</span>Sign language, audio descriptions and adaptive pacing are valuable for accessibility, but they are well-known features. None of them sets this proposal apart from prior systems.</span></span>. Evaluate against standard video lectures.</p>
+<div class="ns-qpc"><span class="ns-good">+</span> Well-structured four-phase plan that covers accessibility.<br><span class="ns-bad">−</span> No technical contribution beyond combining existing pieces.</div>
+<p class="ns-qtake"><strong>Takeaway:</strong> safe and sensible, but close to what already exists.</p>
+</article>
+
+<article class="ns-qcard">
+<div class="ns-qhead"><h3 class="ns-qname">ReAct</h3><span class="ns-qtag" style="background: #EEF0F4; color: #3A4458">RL, same actions, no creativity levels</span></div>
+<p class="ns-qgist">Adapt lectures in real time using a <span class="ns-hl ns-hl-good" tabindex="0">multimodal engagement score<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #86EFAC">Why green: a concrete new artifact</span>One score that fuses visual, auditory and physiological signals. It’s specific, measurable, and something later phases can build on.</span></span> built from visual, auditory and physiological signals, fed into an <span class="ns-hl ns-hl-bad" tabindex="0">RL engine that tunes pacing and content granularity<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #FCA5A5">Why red: underspecified</span>The state, action and reward spaces are never defined, so it’s unclear how engagement signals actually become adaptation decisions.</span></span>. Validated with a 120-person A/B study.</p>
+<div class="ns-qpc"><span class="ns-good">+</span> A concrete novel artifact and a controlled experiment.<br><span class="ns-bad">−</span> The core method is vague relative to the elaborate evaluation.</div>
+<p class="ns-qtake"><strong>Takeaway:</strong> one new building block inside a fairly standard plan.</p>
+</article>
+
+<article class="ns-qcard ns-qcard-ours">
+<div class="ns-qhead"><h3 class="ns-qname">Night-8B (R<sub>out</sub>)</h3><span class="ns-qtag" style="background: #FFE7B8; color: #6B3A0C">Ours · outcome reward</span></div>
+<p class="ns-qgist">Propose <span class="ns-hl ns-hl-good" tabindex="0"><em>Agentify</em>, which turns passive lectures into live, agent-mediated sessions<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #86EFAC">Why green: a reframing</span>Rather than optimizing a recording after the fact, the lecture becomes a live, co-created session where an AI interleaves questions, hints and dialogue based on learner behavior.</span></span>. A study randomizes 200 learners across 40 lectures into passive, over-moderated, fixed-tier and adaptive-tier groups, and includes <span class="ns-hl ns-hl-bad" tabindex="0">a forced speed slider with eight settings (1×–8×)<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #FCA5A5">Why red: contrived detail</span>The rationale for this component is weak, and the related idea of co-evolving agent templates with “cognitive tiers” is underdeveloped.</span></span>.</p>
+<div class="ns-qpc"><span class="ns-good">+</span> Novel framing, testable hypothesis, sensible multi-group design.<br><span class="ns-bad">−</span> A few components are loosely motivated.</div>
+<p class="ns-qtake"><strong>Takeaway:</strong> asks “what if a lecture were a conversation?” Bold, but still testable.</p>
+</article>
+
+<article class="ns-qcard ns-qcard-ours">
+<div class="ns-qhead"><h3 class="ns-qname">Night-8B (R<sub>po</sub>)</h3><span class="ns-qtag" style="background: #FFE7B8; color: #6B3A0C">Ours · process + outcome</span></div>
+<p class="ns-qgist">Propose <span class="ns-hl ns-hl-good" tabindex="0">Progressive Content Enactors: agents that deliberately embed controlled errors and ambiguity<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #86EFAC">Why green: the most novel direction</span>Purposeful mistakes become a teaching tool, much as working through a flawed proof teaches more than reading a perfect one. It echoes error-based learning and productive failure, yet is clearly distinct from prior lecture systems.</span></span> so learners must detect and resolve them, moving from passive reception to active problem solving. The background cites <span class="ns-hl ns-hl-bad" tabindex="0">an engagement score of c = 0.12, +3.5σ retention and a 2.78σ efficacy gain<span class="ns-tip" role="tooltip"><span class="ns-tip-label" style="color: #FCA5A5">Why red: overreach</span>None of these numbers is independently verifiable or tied to a standard evaluation framework, which undermines the proposal’s credibility.</span></span>.</p>
+<div class="ns-qpc"><span class="ns-good">+</span> A fresh, actionable concept clearly differentiated from prior work.<br><span class="ns-bad">−</span> Unverifiable metrics and a weakly grounded evaluation.</div>
+<p class="ns-qtake"><strong>Takeaway:</strong> the boldest idea and the least grounded. Scoring every step pushed originality at the cost of rigor.</p>
+</article>
+
+</div>
+
+<div style="background: #13294B; color: #FFFFFF; border-radius: 16px; padding: 24px 28px; display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 19px; color: #F5B400">Reading the comparison</h3>
+<div class="ns-grid3" style="gap: 22px">
+<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #D5DDEA"><strong style="color: #FFFFFF">Baselines improve the recording.</strong> GPT-4.1 and ReAct add better segmentation, pacing or sensing. The lecture is still something you watch.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #D5DDEA"><strong style="color: #FFFFFF">Ours changes the premise.</strong> Both variants drop the idea that a lecture is passive. It becomes a conversation, or a puzzle to solve.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #D5DDEA"><strong style="color: #FFFFFF">Bolder isn’t always better.</strong> The step-scored variant is the most original and the least rigorous. That is why outcome-only training is our default.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ ANALYSIS FIGURES ============ -->
+<section class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 48px 40px 72px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 860px">
+<h2 class="ns-h2">What the model learned</h2>
+</div>
+<div class="ns-grid2" style="align-items: start">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px">Higher levels really change behavior</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3A4458">When the model picks a higher creativity level, its output should get more varied and move further from the current draft. With our written-out levels, that link gets stronger during training. With temperature levels, it breaks down.</p>
+</div>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/entropy.png" alt="Line charts over training steps of the correlation between chosen creativity level and output entropy and semantic similarity, for AI Night-Scientist and the temperature variant.">
+<figcaption class="ns-cap">Correlation between the chosen level and output behavior during training. Higher is better.</figcaption>
+</figure>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 860px">
+<h3 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 600; font-size: 20px">Scoring every step leads to more Spark</h3>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3A4458">GPT-4.1 usually just searches, writes and stops. Night-8B trained with step rewards picks Spark (challenging an assumption) more often, usually at mid-to-high levels. Debate is rare, likely because it uses up more of the five-step budget.</p>
+</div>
+<figure style="margin: 0" class="ns-fig">
+<img src="images/night_scientist/actions.png" alt="Stacked bar charts of test-time action frequencies across five reasoning turns for GPT-4.1, Qwen3-8B-Base and AI Night-Scientist-8B.">
+<figcaption class="ns-cap">Which actions each model picks at each of the five steps, at test time.</figcaption>
+</figure>
+</section>
+
+<!-- ============ BIBTEX ============ -->
+<section id="bibtex" style="background: #13294B; color: #FFFFFF">
+<div class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 64px 40px 56px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
+<h2 class="ns-h2" style="color: #FFFFFF">Citation</h2>
+<button type="button" id="copy-bib" class="ns-btn ns-btn-primary" style="border: none; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"></path></svg>
+<span>Copy BibTeX</span></button>
+</div>
+<pre id="bib" style="margin: 0; background: #0C1B33; border: 1px solid #28457A; border-radius: 14px; padding: 22px 24px; overflow-x: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; line-height: 1.65; color: #E6ECF5">@article{kargupta2026nightscientist,
+  title   = {Reinforcing Agentic Creativity in Scientific Ideation with Night Science},
+  author  = {Kargupta, Priyanka and Cucerzan, Silviu and Mahajan, Shweti and Herring, Allen and Han, Jiawei and White, Ryen W. and Jauhar, Sujay Kumar},
+  journal = {arXiv preprint arXiv:[ARXIV ID]},
+  year    = {2026}
+}</pre>
+</div>
+<footer style="border-top: 1px solid #28457A">
+<div class="ns-pad" style="max-width: 1120px; width: 100%; margin: 0 auto; padding: 28px 40px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 15px; color: #AEBBD0">
+<span>University of Illinois Urbana-Champaign · Microsoft · Microsoft Research</span>
+<a href="https://github.com/microsoft/ai_night_scientist" style="color: #FFFFFF">github.com/microsoft/ai_night_scientist</a>
+</div>
+<div style="height: 10px; background: #E8713A"></div>
+</footer>
+</section>
+
+</div>
+<script>
+(function(){var b=document.getElementById('copy-bib');if(!b)return;var l=b.querySelector('span');
+b.addEventListener('click',function(){var t=document.getElementById('bib').textContent;
+function done(){l.textContent='Copied';setTimeout(function(){l.textContent='Copy BibTeX';},1800);}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){});}
+else{var r=document.createRange();r.selectNodeContents(document.getElementById('bib'));var sel=getSelection();sel.removeAllRanges();sel.addRange(r);try{document.execCommand('copy');done();}catch(e){}}});})();
+</script>
+</body>
+</html>
